@@ -1,0 +1,18 @@
+<div class="flex items-center">
+    <a href="/" class="font-bold tracking-widest text-3xl" style="font-family: 'Goldman', cursive;" data-turbolinks="false">Kiita</a>
+    <%# モーダルボタン1 %>
+    <div class="modal-btn1 relative">
+        <i class="fas fa-caret-down ml-2 rounded cursor-pointer inline-block w-5 h-5 text-center text-xs leading-5 bg-qiita-sub"></i>
+        <%= render "layouts/header/modals/home" %>
+    </div>
+    <%# モーダルボタン2 %>
+    <div class="modal-btn2 relative cursor-pointer mx-6" id="community-btn">
+        <span class="text-xs">コミュニティ</span>
+        <i id="community-btn-icon" class="fas fa-caret-down text-xs pl-1 text-qiita-sub"></i>
+        <%= render "layouts/header/modals/community" %>
+    </div>
+    <%= form_with model: nil, url: "/", method: "get", class: "relative" do |f| %>
+        <%= f.text_field nil, class: "rounded h-7 pl-8 py-4 text-xs w-48 text-gray-700 shadow-inner", placeholder: "キーワードを入力" %>
+        <i class="fa fa-search fa-xs absolute top-1/3 left-0 text-gray-400 ml-2 pl-1"></i>
+    <% end %>
+</div>

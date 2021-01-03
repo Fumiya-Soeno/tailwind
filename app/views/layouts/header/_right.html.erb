@@ -1,0 +1,31 @@
+<div class="flex leading-8">
+    <a href="/" class="leading-8" data-turbolinks="false">
+        <i class="fab fa-get-pocket fa-sm"></i>
+        <span class="hover:underline text-xs">ストック一覧</span>
+    </a>
+    <%# モーダルボタン3 %>
+    <div class="modal-btn3 relative text-sm h-8 leading-8 bg-qiita-sub text-white px-5 mr-2 rounded cursor-pointer ml-4">
+        <i class="far fa-edit fa-sm"></i>
+        <span class="text-xs px-1">投稿する</span>
+        <i class="fa fa-caret-down"></i>
+        <%= render "layouts/header/modals/post" %>
+    </div>
+    <div class="text-sm h-8 leading-8 bg-white text-qiita-sub px-2 mr-2 rounded cursor-pointer ml-4">
+        <i class="far fa-envelope"></i> 0 
+    </div>
+    <div class="text-sm h-8 leading-8 bg-qiita-notify px-2 mr-2 rounded cursor-pointer">
+        <i class="far fa-bell"></i> 99+
+    </div>
+    <%# モーダルボタン4 %>
+    <div class="modal-btn4 relative cursor-pointer" id="user-btn" id="user-btn">
+        <div class="fa fa-user text-gray-600 bg-gray-200 inline-block w-7 h-7 leading-7 text-center rounded-full"></div>
+        <div id="user-btn-icon" class="fa fa-caret-down fa-xs ml-1 gb-gray-200 text-qiita-sub"></div>
+        <%= render "layouts/header/modals/user" %>
+    </div>
+</div>
+
+<script>
+    $(()=>{
+
+    })
+</script>

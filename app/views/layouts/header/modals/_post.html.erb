@@ -1,0 +1,9 @@
+<%# 投稿ボタンを押すと表示されるモーダル %>
+
+<% modal_id = 3 %>
+
+<div class="hidden modal<%= modal_id %> bg-white absolute z-10 top-9 -left-20 cursor-pointer rounded-sm shadow w-56">
+    <%= render "layouts/header/modals/contents/body"  , {title:"記事", icon:"", border:""} %>
+    <%= render "layouts/header/modals/contents/body"  , {title:"質問", icon:"", border:""} %>
+    <%= render "layouts/header/modals/contents/body"  , {title:"質問(テンプレートあり)", icon:"", border:""} %>
+</div>

@@ -1,0 +1,41 @@
+<%
+contents_article = [
+    {class: "fas fa-chart-line"    , title: "トレンド"        , action: "index"},
+    {class: "fas fa-users"         , title: "タイムライン"     , action: "timeline"},
+    {class: "fas fa-tag"           , title: "タグ"           , action: "tags"},
+    {class: "fas fa-flag-checkered", title: "マイルストーン"   , action: "milestone"},
+    {class: "fas fa-calendar"      , title: "カレンダーフィード", action: "calendarfeed"}]
+contents_question = [
+    {class: "fas fa-chart-line"       , title: "トレンド"   , action: "index"},
+    {class: "fas fa-users"            , title: "タイムライン", action: "timeline"},
+    {class: "fas fa-tag"              , title: "タグ"      , action: "tags"},
+    {class: "fas fa-question"         , title: "回答募集中" , action: "question"},
+    {class: "fas fa-sort-numeric-down", title: "新着"      , action: "news"}]
+%>
+
+<div class="w-52 sticky inset-0 text-xs font-bold">
+    <div class="border-b-2 mb-2">
+        <div class="mb-2">記事フィード</div>
+        <% contents_article.each do |c|%>
+            <a href="/articles/<%= c[:action] %>" class="block text-gray-400 hover:bg-gray-200 cursor-pointer h-8 rounded-l leading-8 pl-4 mb-2 <%= "active" if controller_name == "articles" && c[:action] == "#{action_name}" %>"><i class="<%=c[:class]%> inline-block w-6" data-turbolinks="false"></i><%=c[:title]%></a>
+        <% end %>
+    </div>
+    <div class="mb-2">
+        <div class="mb-2">質問フィード</div>
+        <% contents_question.each do |c|%>
+            <a href="/questions/<%= c[:action] %>" class="block text-gray-400 hover:bg-gray-200 cursor-pointer h-8 rounded-l leading-8 pl-4 mb-2 <%= "active" if controller_name == "questions" && c[:action] == "#{action_name}" %>"><i class="<%=c[:class]%> inline-block w-6" data-turbolinks="false"></i><%=c[:title]%></a>
+        <% end %>
+    </div>
+</div>
+
+<style>
+    .active{
+        color: #FFF;
+        background: #55C500;
+        font-weight: normal;
+    }
+    .active:hover{
+        background: #33A300;
+    }
+</style>
+

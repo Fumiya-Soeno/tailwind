@@ -1,0 +1,20 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/*
+    以下で実装に足りないクラスを追加しちゃいます。
+    tailwind.config.jsで追加するのが正しいやり方ですが、
+    面倒なので今回は省略します。ちゃんとやりたい人は修正してみよう。
+*/
+
+.mw-1088 { width: 100%; max-width: 1088px; }
+.text-11px { font-size: 11px; }
+.bg-qiita        { background: #55C500; }
+.bg-qiita-sub    { background: #568F28; }
+.bg-qiita-notify { background: #E14B22; }
+.text-qiita     { color: #55C500; }
+.text-qiita-sub { color: #568F28; }
+.bg-qiita-sub:hover { background: #45751F; }
+.period { border-bottom: 2px solid rgba(0,0,0,0); }
+.period-active, .period:hover  { color: #55C500; border-bottom: 2px solid #55C500; }

@@ -1,0 +1,62 @@
+<%
+periods = [
+    {title: "1日", link: "/"              , params: nil},
+    {title: "週間", link: "/?scope=weekly" , params: "weekly"},
+    {title: "月間", link: "/?scope=monthly", params: "monthly"}]
+%>
+
+<div class="bg-white w-144 mr-4">
+    <div class="px-4 pt-4 border-b-2 text-gray-600">
+        <i class="fas fa-chart-line fa-lg"></i>
+        <span class="px-1">トレンド</span>
+        <span class="text-xs text-gray-400">
+            <% case params[:scope]%>
+            <% when "weekly"  then %>
+                最近1週間の人気の記事を毎週月曜/木曜日に更新
+            <% when "monthly" then %>
+                最近1ヶ月の人気の記事を毎月1日/15日に更新
+            <% else %>
+                最近人気の記事を毎日5時/17時に更新
+            <% end %>
+        </span>
+        <div class="flex mt-4 text-sm text-gray-500">
+            <% periods.each do |p|%>
+                <a href="<%=p[:link]%>" class="period px-4 cursor-pointer pb-2 mx-1 <%= "period-active" if params[:scope] == p[:params] %>" data-turbolinks="false"><%=p[:title]%></a>
+            <% end %>
+        </div>
+    </div>
+    <%
+        articles = [
+            {title:"Rails6 & Tailwind CSSでQiitaを作ってみた", tags:["CSS","Ruby","Rails","JavaScript","TailwindCSS"]},
+            {title:"WEBプログラミング学習最短ロードマップ", tags:["Rails","JavaScript","SQL","AWS","docker"]},
+            {title:"Rails6 & Tailwind CSSでQiitaを作ってみた", tags:["CSS","Ruby","Rails","JavaScript","TailwindCSS"]},
+            {title:"WEBプログラミング学習最短ロードマップ", tags:["Rails","JavaScript","SQL","AWS","docker"]},
+            {title:"Rails6 & Tailwind CSSでQiitaを作ってみた", tags:["CSS","Ruby","Rails","JavaScript","TailwindCSS"]},]
+    %>
+    <% articles.each do |a| %>
+        <div class="p-4 border-b">
+            <div class="text-sm mb-1">
+                <a href="/" class="rounded-full bg-gray-200 text-center inline-block w-5 h-5 leading-5" data-turbolinks="false">
+                    <i class="fas fa-user text-xs text-gray-600"></i>
+                </a>
+                <a href="/" class="mx-1 hover:underline" data-turbolinks="false">@soeno_onseo</a>
+                <span class="text-gray-500">が2020年12月27日に投稿</span>
+            </div>
+            <a href="/" class="hover:underline font-bold text-lg" data-turbolinks="false"><%=a[:title]%></a>
+            <div class="text-gray-600">
+                <i class="fas fa-tags text-xs"></i>
+                <% a[:tags].each.with_index(1) do |t,i| %>
+                    <a href="/" class="text-sm hover:underline" data-turbolinks="false"><%=t%></a><% unless i == a[:tags].length %>,<%end%>
+                <% end %>
+            </div>
+            <div class="text-center flex items-center mt-1">
+                <div class="text-sm font-sans font-extrabold text-gray-500 w-6 cursor-default">
+                    <div class="h-3 tracking-widest">LG</div>
+                    <div>TM</div>
+                </div>
+                <span class="text-sm ml-2 text-gray-700">100</span>
+            </div>
+        </div>
+    <% end %>
+
+</div>
