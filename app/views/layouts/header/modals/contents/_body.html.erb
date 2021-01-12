@@ -1,6 +1,14 @@
 <%# モーダル本体のテンプレート %>
 
-<a href="/" class="p-3 my-1 hover:bg-gray-100 flex items-center text-xs text-gray-500 <%= border %>" data-turbolinks="false">
+<% 
+# パラメータがない場合は空文字にする
+title  = "" unless title
+icon   = "" unless icon
+border = "" unless border
+link   = "" unless link
+%>
+
+<a href="<%= link %>" class="p-3 my-1 hover:bg-gray-100 flex items-center text-xs text-gray-500 <%= border %>" data-turbolinks="false">
     <i class="fa <%= icon %> mr-3 inline-block w-2"></i>
     <span><%= title %></span>
 </a>

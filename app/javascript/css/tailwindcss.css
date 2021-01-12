@@ -8,13 +8,68 @@
     面倒なので今回は省略します。ちゃんとやりたい人は修正してみよう。
 */
 
-.mw-1088 { width: 100%; max-width: 1088px; }
-.text-11px { font-size: 11px; }
-.bg-qiita        { background: #55C500; }
-.bg-qiita-sub    { background: #568F28; }
-.bg-qiita-notify { background: #E14B22; }
-.text-qiita     { color: #55C500; }
-.text-qiita-sub { color: #568F28; }
-.bg-qiita-sub:hover { background: #45751F; }
-.period { border-bottom: 2px solid rgba(0,0,0,0); }
-.period-active, .period:hover  { color: #55C500; border-bottom: 2px solid #55C500; }
+.mw-1088 {
+  width: 100%;
+  max-width: 1088px;
+}
+.text-11px {
+  font-size: 11px;
+}
+.bg-qiita {
+  background: #55c500;
+}
+.bg-qiita-h:hover {
+  background: #45751f;
+}
+.bg-qiita-sub {
+  background: #568f28;
+}
+.bg-qiita-notify {
+  background: #e14b22;
+}
+.text-qiita {
+  color: #55c500;
+}
+.text-qiita-sub {
+  color: #568f28;
+}
+.bg-qiita-sub:hover {
+  background: #45751f;
+}
+.period {
+  border-bottom: 2px solid rgba(0, 0, 0, 0);
+}
+.period-active,
+.period:hover {
+  color: #55c500;
+  border-bottom: 2px solid #55c500;
+}
+#preview h1,
+#preview h2,
+#preview h3 {
+  width: 100%;
+  display: block;
+  font-weight: bold;
+  border-bottom: 1px solid #999;
+}
+#preview h1 {
+  font-size: 30px;
+  padding: 12px 0;
+  margin-bottom: 12px;
+}
+#preview h2 {
+  font-size: 24px;
+  padding: 10px 0;
+  margin-bottom: 10px;
+}
+#preview h3 {
+  font-size: 18px;
+  padding: 8px 0;
+  margin-bottom: 8px;
+}
+pre {
+  color: white;
+  padding: 1rem;
+  margin: 1rem 0;
+  background: rgb(55, 55, 55);
+}

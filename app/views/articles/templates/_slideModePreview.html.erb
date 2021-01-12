@@ -1,0 +1,68 @@
+<div id="slideModePreview" class="p-2 w-1/2 h-calc-post hidden" page="1" fullscreen="off">
+    <div class="border w-full h-468px rounded flex flex-col justify-between">
+        <span id="slideFirst" class="w-full inline-block h-418px flex flex-col justify-center items-center font-bold">
+            <textarea id="slideModeTitle" class="w-4/5 text-center text-5xl border-b bg-white my-8 font-bold" disabled></textarea>
+            <span class="text-gray-500 text-xs">by soeno_onseo</span>
+        </span>
+        <span id="slideSecond" class="w-full inline-block h-418px flex flex-col justify-center items-center hidden">
+            <div id="slideModeBody" class="bg-white p-4 break-words"></div>
+        </span>
+        <div class="w-full bg-qiita h-50px inner-shadow rounded-b text-white flex items-center justify-between px-6" style="background: linear-gradient(to bottom, #59bb0c 0%, #5ba720 100%);">
+            <i id="slideBackwardIcon" class="slideBackward fa fa-backward text-qiita-sub"></i>
+            <i id="slideForwardIcon" class="slideForward fa fa-forward cursor-pointer opacity-60 hover:opacity-100"></i>
+            <span class="text-xs">
+                <span id="slidePage">1</span>
+                <span>/</span>
+                <span>2</span>
+            </span>
+            <div class="w-3/5 h-2 flex cursor-pointer">
+                <div class="slideBackward w-1/2 bg-white rounded-l opacity-70"></div>
+                <div id="slideForwardBar" class="slideForward w-1/2 bg-qiita-sub rounded-r"></div>
+            </div>
+            <i id="slideFullscreen" class="fa fa-desktop cursor-pointer opacity-60 hover:opacity-100"></i>
+            <span class="font-bold tracking-widest text-xl" style="font-family: 'Goldman', cursive;">Kiita</span>
+        </div>
+    </div>
+</div>
+
+<script>
+$(()=>{
+    // スライドモードのForward/Backward
+    let page = $('#slideModePreview').attr('page')
+    let slideForward = ()=>{
+        $('#slideForwardBar').removeClass('bg-qiita-sub').addClass('bg-white opacity-70')
+        $('#slideForwardIcon').addClass('text-qiita-sub').removeClass('cursor-pointer opacity-60 hover:opacity-100')
+        $('#slideBackwardIcon').removeClass('text-qiita-sub').addClass('cursor-pointer opacity-60 hover:opacity-100')
+        $('#slideFirst').hide()
+        $('#slideSecond').show()
+        if(page == 1){ page = 2 }
+        $('#slidePage').text(page)
+    }
+    let slideBackward = ()=>{
+        $('#slideForwardBar').addClass('bg-qiita-sub').removeClass('bg-white opacity-70')
+        $('#slideForwardIcon').removeClass('text-qiita-sub').addClass('cursor-pointer opacity-60 hover:opacity-100')
+        $('#slideBackwardIcon').addClass('text-qiita-sub').removeClass('cursor-pointer opacity-60 hover:opacity-100')
+        $('#slideFirst').show()
+        $('#slideSecond').hide()
+        if(page == 2){ page = 1 }
+        $('#slidePage').text(page)
+    }
+    $('.slideForward').on('click', ()=>{ slideForward() })
+    $('.slideBackward').on('click', ()=>{ slideBackward() })
+    // スライドモードのフルスクリーンボタン
+    $('#slideFullscreen').on('click', ()=>{
+        $('#slideFirst').toggleClass('h-418px h-full')
+        $('#slideSecond').toggleClass('h-418px h-full')
+        $('#slideModePreview').children().toggleClass('h-468px h-screen')
+        $('#slideModePreview').toggleClass('w-1/2 w-full h-calc-post h-full p-2')
+        let dom = ['header','footer','#newTitle','#tags','#newHeader','#body']
+        if($('#slideModePreview').attr('fullscreen') == "off"){
+            $('#slideModePreview').attr('fullscreen', 'on')
+            dom.filter(c=>{ $(c).hide() })
+        } else {
+            $('#slideModePreview').attr('fullscreen', 'off')
+            dom.filter(c=>{ $(c).show() })
+        }
+    })
+})
+</script>
