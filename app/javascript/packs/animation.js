@@ -156,4 +156,20 @@ $(()=>{
             newModal.fadeOut(100)
         })
     }
+    // 投稿種別の選択
+    $('.newSelectCheck').on('click', function(){
+        $(this).parent().find('.opacity-1').toggleClass('opacity-0 opacity-1')
+        $(this).find('.opacity-0').toggleClass('opacity-0 opacity-1')
+        $('#newSelect').toggleClass('hidden')
+        $('#newForm').attr('action', $(this).attr('action'))
+        $('.newSubmitTitle').hide()
+        $(`#newSubmitTitle${$(this).attr('index')}`).show()
+    })
+    $('#newSelectButton').on('click', function(){
+        $('#newSelect').toggleClass('hidden')
+    })
+    // 投稿種別の初期値を決定 1:draft(下書き), 2:locked(限定公開), 3:create(新規投稿)
+    let defaultPostType = 3
+    $(`#newSelectCheck${defaultPostType}`).find('.opacity-0').toggleClass('opacity-0 opacity-1')
+    $(`#newSubmitTitle${defaultPostType}`).toggleClass('hidden')
 })

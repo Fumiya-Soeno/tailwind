@@ -1,4 +1,13 @@
-<footer class="w-full h-12 bg-gray-200 text-white flex justify-end items-center border-t text-sm">
-    <button class="bg-qiita bg-qiita-h px-3 py-1 mr-1"><i class="fa fa-upload pr-1"></i>Kiita に投稿</button>
-    <button class="bg-qiita bg-qiita-h px-2 py-1 mr-4"><i class="fa fa-caret-up"></i></button>
+<footer class="w-full h-12 bg-gray-200 text-white flex justify-end items-center border-t text-sm relative">
+    <button class="bg-qiita px-3 py-2 mr-1">
+        <%= render "articles/templates/newSubmitTitle", id: 1, icon: "fa fa-save"  , text: "下書き保存" %>
+        <%= render "articles/templates/newSubmitTitle", id: 2, icon: "fa fa-lock"  , text: "限定共有投稿" %>
+        <%= render "articles/templates/newSubmitTitle", id: 3, icon: "fa fa-upload", text: "Kiitaに投稿" %>
+    </button>
+    <div id="newSelect" class="absolute bg-white -top-28 right-4 text-gray-700 border-qiita-3 rounded hidden">
+        <%= render "articles/templates/newSelect", id: 1, icon: "fa fa-save"  , text: "下書き保存"  , action: "draft" %>
+        <%= render "articles/templates/newSelect", id: 2, icon: "fa fa-lock"  , text: "限定共有投稿", action: "locked" %>
+        <%= render "articles/templates/newSelect", id: 3, icon: "fa fa-upload", text: "Kiitaに投稿", action: "create" %>
+    </div>
+    <div id="newSelectButton" class="bg-qiita px-2 py-2 mr-4 cursor-pointer"><i class="fa fa-caret-up"></i></div>
 </footer>

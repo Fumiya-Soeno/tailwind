@@ -33,6 +33,9 @@
 .text-qiita-sub {
   color: #568f28;
 }
+.border-qiita-3 {
+  border: 3px solid #55c500;
+}
 .bg-qiita-sub:hover {
   background: #45751f;
 }
