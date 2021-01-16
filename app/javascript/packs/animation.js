@@ -170,6 +170,7 @@ $(()=>{
     })
     // 投稿種別の初期値を決定 1:draft(下書き), 2:locked(限定公開), 3:create(新規投稿)
     let defaultPostType = 3
+    $('#newForm').attr('action', 'create')
     $(`#newSelectCheck${defaultPostType}`).find('.opacity-0').toggleClass('opacity-0 opacity-1')
     $(`#newSubmitTitle${defaultPostType}`).toggleClass('hidden')
 })
