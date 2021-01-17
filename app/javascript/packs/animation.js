@@ -32,11 +32,12 @@ $(()=>{
     })
     // プレビューの右左矢印
     let hideDom = (arr)=>{$.each(arr, (i,c)=>{$(c).hide()})}
-    let showDom = (arr)=>{$.each(arr, (i,c)=>{$(c).css('display','flex')})}
+    let flexDom = (arr)=>{$.each(arr, (i,c)=>{$(c).css('display','flex')})}
+    let blocDom = (arr)=>{$.each(arr, (i,c)=>{$(c).css('display','block')})}
     let fullDom = (arr)=>{$.each(arr, (i,c)=>{$(c).removeClass('w-1/2').addClass('w-full')})}
     let halfDom = (arr)=>{$.each(arr, (i,c)=>{$(c).addClass('w-1/2').removeClass('w-full')})}
     $('#previewLeft').on('click', ()=>{
-        showDom(['#previewRight2','#previewNeutral1'])
+        flexDom(['#previewRight2','#previewNeutral1'])
         hideDom(['#body','#previewLeft','#previewRight','#newHeaderLeft'])
         fullDom(['#newHeaderRight'])
         if($('#slideMode').prop('checked')){
@@ -44,7 +45,7 @@ $(()=>{
         }
     })
     $('#previewRight').on('click', ()=>{
-        showDom(['#previewLeft2','#previewNeutral2'])
+        flexDom(['#previewLeft2','#previewNeutral2'])
         hideDom(['#preview','#previewRight','#newHeaderRight'])
         fullDom(['#newHeaderLeft','#body'])
         halfDom(['#newHeaderRight','#preview'])
@@ -53,7 +54,8 @@ $(()=>{
         }
     })
     $('#previewNeutral1').on('click', ()=>{
-        showDom(['#body','#previewLeft','#previewRight','#newHeaderLeft','#preview','#previewRight','#newHeaderRight'])
+        flexDom(['#body','#previewLeft','#previewRight','#newHeaderLeft','#previewRight','#newHeaderRight'])
+        blocDom(['#preview'])
         hideDom(['#previewLeft2','#previewRight2','#previewNeutral1','#previewNeutral2'])
         halfDom(['#newHeaderRight','#preview','#newHeaderLeft','#body'])
         if($('#slideMode').prop('checked')){
@@ -62,16 +64,17 @@ $(()=>{
         }
     })
     $('#previewNeutral2').on('click', ()=>{
-        showDom(['#body','#previewLeft','#previewRight','#newHeaderLeft','#preview','#previewRight','#newHeaderRight'])
+        flexDom(['#body','#previewLeft','#previewRight','#newHeaderLeft','#previewRight','#newHeaderRight'])
+        blocDom(['#preview'])
         hideDom(['#previewLeft2','#previewRight2','#previewNeutral1','#previewNeutral2'])
         halfDom(['#newHeaderRight','#preview','#newHeaderLeft','#body'])
         if($('#slideMode').prop('checked')){
-            showDom(['#slideModePreview'])
+            flexDom(['#slideModePreview'])
             hideDom(['#preview'])
         }
     })
     $('#previewRight2').on('click', ()=>{
-        showDom(['#body','#newHeaderLeft','#previewLeft2','#previewNeutral2'])
+        flexDom(['#body','#newHeaderLeft','#previewLeft2','#previewNeutral2'])
         hideDom(['#preview','#newHeaderRight'])
         fullDom(['#newHeaderLeft','#body'])
         halfDom(['#newHeaderRight','#preview'])
@@ -81,28 +84,30 @@ $(()=>{
         }
     })
     $('#previewLeft2').on('click', ()=>{
-        showDom(['#preview','#newHeaderRight','#previewRight2','#previewNeutral1'])
+        flexDom(['#newHeaderRight','#previewRight2','#previewNeutral1'])
+        blocDom(['#preview'])
         hideDom(['#body','#newHeaderLeft','#previewLeft'])
         halfDom(['#newHeaderLeft','#body'])
         fullDom(['#newHeaderRight','#preview'])
         if($('#slideMode').prop('checked')){
-            showDom(['#slideModePreview'])
+            flexDom(['#slideModePreview'])
             fullDom(['#slideModePreview'])
             hideDom(['#preview'])
         }
     })
     // スライドモードのチェックボックス
-    $('#slideMode').on('click', function(){
+    $('#slideModeTitle').autosize()
+    $('#slideMode').on('click', function(){ 
         if($(this).prop('checked')){
             $('#preview').hide()
             $('#slideModePreview').show()
+            $('#slideModeTitle').trigger('autosize.resize')
         } else {
             $('#preview').show()
             $('#slideModePreview').hide()
         }
     })
     // スライドモードのタイトル表示を同期させる
-    $('#slideModeTitle').autosize()
     $('#newTitle').on('keyup', function(){
         $('#slideModeTitle').val($(this).val())
                             .trigger('autosize.resize')
@@ -126,6 +131,7 @@ $(()=>{
         $('#slideSecond').hide()
         if(page == 2){ page = 1 }
         $('#slidePage').text(page)
+        $('#slideModeTitle').trigger('autosize.resize')
     }
     $('.slideForward').on('click', ()=>{ slideForward() })
     $('.slideBackward').on('click', ()=>{ slideBackward() })
