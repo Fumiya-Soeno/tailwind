@@ -7,12 +7,16 @@
         <div class="flex text-xl pr-4 relative items-center">
             <%= render "articles/templates/newModal", {className: "fa fa-image", width: 64, text: "添付する画像を選択またはドラッグ&ドロップ", modalId: 1} %>
             <%= render "articles/templates/newModal", {className: "far fa-smile", width: 24, text: "絵文字を選択", modalId: 2} %>
-            <%= render "articles/templates/newModal", {className: "fa fa-question-circle text-gray-800", width: 32, text: "Markdownの書き方", modalId: 3} %>
+            <%= render "articles/templates/newModal", {className: "fa fa-question-circle text-gray-600", width: 32, text: "Markdownの書き方", modalId: 3} %>
+            <div id="previewLeft2"  class="w-4 text-center border h-7 flex items-center bg-white mr-1 cursor-pointer hidden text-xs ml-3"><i class="w-4 fa fa-angle-double-left"></i></div>
+            <div id="previewNeutral2" class="w-4 text-center border h-7 flex items-center bg-white mr-1 cursor-pointer hidden text-xs ml-1"><i class="w-4 fa fa-angle-left"></i></div>
         </div>
     </div>
     <div id="newHeaderRight" class="w-1/2 bg-gray-100 text-gray-400 h-9 flex items-center px-2">
-        <button class="w-4 inline-block border h-7 flex items-center bg-white px-1 mr-1"><i class="fa fa-chevron-left"></i></button>
-        <button class="w-4 inline-block border h-7 flex items-center bg-white px-1 mr-1"><i class="fa fa-chevron-right"></i></button>
+        <div id="previewLeft"   class="w-4 text-center border h-7 flex items-center bg-white mr-1 cursor-pointer"><i class="w-4 fa fa-angle-left"></i></div>
+        <div id="previewRight"  class="w-4 text-center border h-7 flex items-center bg-white mr-1 cursor-pointer"><i class="w-4 fa fa-angle-right"></i></div>
+        <div id="previewNeutral1" class="w-4 text-center border h-7 flex items-center bg-white mr-1 cursor-pointer hidden"><i class="w-4 fa fa-angle-right"></i></div>
+        <div id="previewRight2" class="w-4 text-center border h-7 flex items-center bg-white mr-1 cursor-pointer hidden"><i class="w-4 fa fa-angle-double-right"></i></div>
         <span class="pl-2">プレビュー</span>
         <span class="pl-2">
             <input type="checkbox" id="slideMode">
