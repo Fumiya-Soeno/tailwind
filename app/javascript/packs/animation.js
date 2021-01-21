@@ -178,4 +178,50 @@ $(()=>{
     let defaultPostType = 3
     $(`#newSelectCheck${defaultPostType}`).find('.opacity-0').toggleClass('opacity-0 opacity-1')
     $(`#newSubmitTitle${defaultPostType}`).toggleClass('hidden')
+    // 画像の本文中へのアップロード
+    const bucket = 'onseo'
+    const region = 'ap-northeast-1'
+    AWS.config.update({
+        region: region,
+        accessKeyId: gon.access_key_id,
+        secretAccessKey: gon.secret_access_key
+    })
+    AWS.config.apiVersions = {
+        rekognition: '2016-06-27',
+    }
+    const UploadToS3 = function(file) {
+        const s3 = new AWS.S3({
+            params: {
+                Bucket: bucket,
+                Region: region
+            }
+        })
+        if (file) {
+            s3.putObject({
+                Body: file,
+                Key: file.name,
+                ContentType: file.type,
+                ACL: "public-read"
+            }, function(err, data) {
+                if (data !== null) {
+                    let body = $('#article_body').val()
+                    $('#article_body').val(body + '![](' + `https://${bucket}.s3-${region}.amazonaws.com/${file.name}` +')\n')
+                    $('#article_body').trigger('keyup')
+                } else {
+                    console.log(err)
+                }
+            })
+        }
+    }
+    $('.newModalIcon1').on('click',function(){
+        $('#bodyImageUpload').trigger('click')
+    })
+    $('#bodyImageUpload').on('change', function(){
+        UploadToS3($(this).prop('files')[0])
+    })
+    $('#article_body').on('drop',function(e){
+        e.preventDefault()
+        $('#bodyImageUpload').prop('files', e.originalEvent.dataTransfer.files)
+        UploadToS3($('#bodyImageUpload').prop('files')[0])
+    })
 })
