@@ -1,5 +1,5 @@
 <%= render "layouts/header" %>
-<%= form_with id: "newForm", action: "create" do |f| %>
+<%= form_with model: @article ,id: "newForm" do |f| %>
     <%= f.text_field :title, placeholder: "タイトル", id: "newTitle", class: "border w-full my-1 py-1 px-2 text-2xl placeholder-gray-500" %>
     <%= f.text_field :tags , placeholder: "プログラミング技術に関連するタグをスペース区切りで5つまで入力（例: Ruby Rails）", class: "border w-full py-1 px-2 text-sm placeholder-gray-500 shadow-inner" %>
     <%= render 'articles/templates/newHeader' %>
