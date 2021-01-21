@@ -1,0 +1,18 @@
+<%= render "layouts/header" %>
+<%= @article.title %>
+<div id="showArticle">
+    <%= @article.body %>
+</div>
+
+<script>
+$(()=>{
+    marked.setOptions({
+        breaks: true,
+        langPrefix: '',
+        highlight: function (code, lang) {
+        return hljs.highlightAuto(code, [lang]).value
+        }
+    })
+    $('#showArticle').html(marked($('#showArticle').html()))
+})
+</script>

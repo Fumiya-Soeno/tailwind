@@ -26,7 +26,7 @@ $(()=>{
         return hljs.highlightAuto(code, [lang]).value
         }
     })
-    $('#body').on('keyup', function(){
+    $('#article_body').on('keyup', function(){
         $('#preview').html(marked($(this).val()))
         $('#slideModeBody').html(marked($(this).val()))
     })
@@ -38,7 +38,7 @@ $(()=>{
     let halfDom = (arr)=>{$.each(arr, (i,c)=>{$(c).addClass('w-1/2').removeClass('w-full')})}
     $('#previewLeft').on('click', ()=>{
         flexDom(['#previewRight2','#previewNeutral1'])
-        hideDom(['#body','#previewLeft','#previewRight','#newHeaderLeft'])
+        hideDom(['#article_body','#previewLeft','#previewRight','#newHeaderLeft'])
         fullDom(['#newHeaderRight'])
         if($('#slideMode').prop('checked')){
             fullDom(['#slideModePreview'])
@@ -47,36 +47,36 @@ $(()=>{
     $('#previewRight').on('click', ()=>{
         flexDom(['#previewLeft2','#previewNeutral2'])
         hideDom(['#preview','#previewRight','#newHeaderRight'])
-        fullDom(['#newHeaderLeft','#body'])
+        fullDom(['#newHeaderLeft','#article_body'])
         halfDom(['#newHeaderRight','#preview'])
         if($('#slideMode').prop('checked')){
             hideDom(['#slideModePreview'])
         }
     })
     $('#previewNeutral1').on('click', ()=>{
-        flexDom(['#body','#previewLeft','#previewRight','#newHeaderLeft','#previewRight','#newHeaderRight'])
+        flexDom(['#article_body','#previewLeft','#previewRight','#newHeaderLeft','#previewRight','#newHeaderRight'])
         blocDom(['#preview'])
         hideDom(['#previewLeft2','#previewRight2','#previewNeutral1','#previewNeutral2'])
-        halfDom(['#newHeaderRight','#preview','#newHeaderLeft','#body'])
+        halfDom(['#newHeaderRight','#preview','#newHeaderLeft','#article_body'])
         if($('#slideMode').prop('checked')){
             hideDom(['#preview'])
             halfDom(['#slideModePreview'])
         }
     })
     $('#previewNeutral2').on('click', ()=>{
-        flexDom(['#body','#previewLeft','#previewRight','#newHeaderLeft','#previewRight','#newHeaderRight'])
+        flexDom(['#article_body','#previewLeft','#previewRight','#newHeaderLeft','#previewRight','#newHeaderRight'])
         blocDom(['#preview'])
         hideDom(['#previewLeft2','#previewRight2','#previewNeutral1','#previewNeutral2'])
-        halfDom(['#newHeaderRight','#preview','#newHeaderLeft','#body'])
+        halfDom(['#newHeaderRight','#preview','#newHeaderLeft','#article_body'])
         if($('#slideMode').prop('checked')){
             flexDom(['#slideModePreview'])
             hideDom(['#preview'])
         }
     })
     $('#previewRight2').on('click', ()=>{
-        flexDom(['#body','#newHeaderLeft','#previewLeft2','#previewNeutral2'])
+        flexDom(['#article_body','#newHeaderLeft','#previewLeft2','#previewNeutral2'])
         hideDom(['#preview','#newHeaderRight'])
-        fullDom(['#newHeaderLeft','#body'])
+        fullDom(['#newHeaderLeft','#article_body'])
         halfDom(['#newHeaderRight','#preview'])
         if($('#slideMode').prop('checked')){
             hideDom(['#slideModePreview'])
@@ -86,8 +86,8 @@ $(()=>{
     $('#previewLeft2').on('click', ()=>{
         flexDom(['#newHeaderRight','#previewRight2','#previewNeutral1'])
         blocDom(['#preview'])
-        hideDom(['#body','#newHeaderLeft','#previewLeft'])
-        halfDom(['#newHeaderLeft','#body'])
+        hideDom(['#article_body','#newHeaderLeft','#previewLeft'])
+        halfDom(['#newHeaderLeft','#article_body'])
         fullDom(['#newHeaderRight','#preview'])
         if($('#slideMode').prop('checked')){
             flexDom(['#slideModePreview'])
@@ -141,7 +141,7 @@ $(()=>{
         $('#slideSecond').toggleClass('h-418px h-full')
         $('#slideModePreview').children().toggleClass('h-468px h-screen')
         $('#slideModePreview').toggleClass('w-1/2 w-full h-calc-post h-full p-2')
-        let dom = ['header','footer','#newTitle','#tags','#newHeader','#body']
+        let dom = ['header','footer','#newTitle','#tags','#newHeader','#article_body']
         if($('#slideModePreview').attr('fullscreen') == "off"){
             $('#slideModePreview').attr('fullscreen', 'on')
             dom.filter(c=>{ $(c).hide() })
@@ -176,7 +176,6 @@ $(()=>{
     })
     // 投稿種別の初期値を決定 1:draft(下書き), 2:locked(限定公開), 3:create(新規投稿)
     let defaultPostType = 3
-    $('#newForm').attr('action', 'create')
     $(`#newSelectCheck${defaultPostType}`).find('.opacity-0').toggleClass('opacity-0 opacity-1')
     $(`#newSubmitTitle${defaultPostType}`).toggleClass('hidden')
 })
