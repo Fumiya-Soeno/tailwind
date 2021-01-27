@@ -1,6 +1,6 @@
 <%= render "layouts/header" %>
 <%= @article.title %>
-<div id="showArticle">
+<div id="preview">
     <%= @article.body %>
 </div>
 
@@ -13,6 +13,6 @@ $(()=>{
         return hljs.highlightAuto(code, [lang]).value
         }
     })
-    $('#showArticle').html(marked($('#showArticle').html()))
+    $('#preview').html(marked($('#preview').html()))
 })
 </script>

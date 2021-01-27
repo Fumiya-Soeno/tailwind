@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   resources :articles, only: [:new, :create, :show] do
     collection do
+      get "drafts"
       post "draft"
       post "locked"
     end

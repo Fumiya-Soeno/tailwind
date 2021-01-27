@@ -1,0 +1,42 @@
+<div class="relative">
+    <div class="px-6 py-4 hover:bg-white cursor-pointer draft" draft="<%= d.id %>">
+        <span class="inline-block font-10px mb-2 text-white font-bold bg-qiita px-2">記事</span>
+        <div class="font-bold"><%= d.title %></div>
+        <div class="text-gray-400 py-4">
+            <%= d.body.first(100) %>
+            <%= "..." if d.body.length >= 100 %>
+        </div>
+        <div class="font-12px text-gray-400">
+            <%= time_ago_in_words(d.created_at).gsub("about ","") + " ago" %>
+        </div>
+    </div>
+</div>
+
+<style>
+    .draftActive {
+        background-color: white;
+    }
+    .draftActive::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background-color: #55c500;
+    }
+</style>
+
+<script>
+$(()=>{
+    $('.draft').eq(0).addClass('draftActive')
+    $('.draftPreview').eq(0).show()
+    $('.draft').on('click', function(){
+        $('.draftPreview').hide()
+        $('.draftActive').removeClass('draftActive')
+        $(this).addClass('draftActive')
+        $('.draftPreview')
+        $(`#draft${$(this).attr('draft')}`).show()
+    })
+})
+</script>

@@ -8,10 +8,29 @@ class ArticlesController < ApplicationController
 
     # 下書き投稿
     def draft
+        @article = Article.new(article_params.merge(draft: true))
+        if @article.save
+            parse_tags()
+            redirect_to drafts_articles_path
+        else
+            redirect_to new_article_path
+        end
+    end
+
+    # 下書き一覧
+    def drafts
+        @drafts = Article.where(draft: true)
     end
 
     # 限定公開
     def locked
+        @article = Article.new(article_params.merge(locked: true))
+        if @article.save
+            parse_tags()
+            redirect_to article_path(@article)
+        else
+            redirect_to new_article_path
+        end
     end
 
     # 新規投稿

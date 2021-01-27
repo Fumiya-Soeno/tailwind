@@ -30,6 +30,9 @@
 .text-qiita {
   color: #55c500;
 }
+.text-qiita-h:hover {
+  color: #55c500;
+}
 .text-qiita-sub {
   color: #568f28;
 }
@@ -75,4 +78,7 @@ pre {
   padding: 1rem;
   margin: 1rem 0;
   background: rgb(55, 55, 55);
+}
+.h-screen-header {
+  height: calc(100vh - 56px);
 }

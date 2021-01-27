@@ -1,0 +1,42 @@
+<%= render "layouts/header" %>
+<div class="flex h-screen-header text-gray-700">
+    <div class="w-360px bg-gray-100 text-sm overflow-scroll">
+        <div class="p-6 flex justify-between items-center border-b">
+            <span class="font-bold">下書き一覧</span>
+            <i class="fa fa-filter fa-xs text-gray-400 text-qiita-h cursor-pointer"></i>
+        </div>
+        <% if @drafts.length != 0 %>
+            <% @drafts.each do |d| %>
+                <%= render "articles/templates/draftContent", d: d %>
+            <% end %>
+        <% else %>
+            <span class="flex p-6">下書きがありません</span>
+        <% end %>
+    </div>
+    <div id="preview" class="overflow-scroll">
+        <% @drafts.each do |d| %>
+            <%= render "articles/templates/draftPreview", d: d %>
+        <% end %>
+    </div>
+</div>
+
+<style>
+    #preview {
+        width: calc(100% - 360px);
+    }
+</style>
+
+<script>
+$(()=>{
+    marked.setOptions({
+        breaks: true,
+        langPrefix: '',
+        highlight: function (code, lang) {
+        return hljs.highlightAuto(code, [lang]).value
+        }
+    })
+    $('.showArticle').filter((i,s)=>{
+        $(s).html(marked($(s).html()))
+    })
+})
+</script>
