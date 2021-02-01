@@ -142,7 +142,7 @@ $(()=>{
         $('#slideSecond').toggleClass('h-418px h-full')
         $('#slideModePreview').children().toggleClass('h-468px h-screen')
         $('#slideModePreview').toggleClass('w-1/2 w-full h-calc-post h-full p-2')
-        let dom = ['header','footer','#newTitle','#tags','#newHeader','#article_body']
+        let dom = ['header','footer','#newTitle','#article_tags','#newHeader','#article_body']
         if($('#slideModePreview').attr('fullscreen') == "off"){
             $('#slideModePreview').attr('fullscreen', 'on')
             dom.filter(c=>{ $(c).hide() })
