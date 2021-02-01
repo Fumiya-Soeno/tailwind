@@ -52,28 +52,35 @@
 }
 #preview h1,
 #preview h2,
-#preview h3 {
+#preview h3,
+#slideModePreview h1,
+#slideModePreview h2,
+#slideModePreview h3 {
   width: 100%;
   display: block;
   font-weight: bold;
   border-bottom: 1px solid #999;
 }
-#preview h1 {
+#preview h1,
+#slideModePreview h1 {
   font-size: 30px;
   padding: 12px 0;
   margin: 24px 0;
 }
-#preview h2 {
+#preview h2,
+#slideModePreview h2 {
   font-size: 24px;
   padding: 10px 0;
   margin: 20px 0;
 }
-#preview h3 {
+#preview h3,
+#slideModePreview h3 {
   font-size: 18px;
   padding: 8px 0;
   margin: 16px 0;
 }
-#preview li {
+#preview li,
+#slideModePreview li {
   list-style-type: disc;
   list-style: inside;
 }
