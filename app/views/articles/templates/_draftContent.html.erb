@@ -11,32 +11,3 @@
         </div>
     </div>
 </div>
-
-<style>
-    .draftActive {
-        background-color: white;
-    }
-    .draftActive::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 4px;
-        height: 100%;
-        background-color: #55c500;
-    }
-</style>
-
-<script>
-$(()=>{
-    $('.draft').eq(0).addClass('draftActive')
-    $('.draftPreview').eq(0).show()
-    $('.draft').on('click', function(){
-        $('.draftPreview').hide()
-        $('.draftActive').removeClass('draftActive')
-        $(this).addClass('draftActive')
-        $('.draftPreview')
-        $(`#draft${$(this).attr('draft')}`).show()
-    })
-})
-</script>

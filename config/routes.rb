@@ -1,11 +1,14 @@
 Rails.application.routes.draw do
   root 'articles#index'
 
-  resources :articles, only: [:new, :create, :show] do
+  resources :articles do
     collection do
       get "drafts"
       post "draft"
       post "locked"
+    end
+    member do
+      patch "draft_to_article"
     end
   end
   articles = ["index","timeline","tags","milestone","calendarfeed"]

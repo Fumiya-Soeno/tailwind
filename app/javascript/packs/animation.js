@@ -30,6 +30,7 @@ $(()=>{
         $('#preview').html(marked($(this).val()))
         $('#slideModeBody').html(marked($(this).val()))
     })
+    $('#article_body').trigger('keyup')
     // プレビューの右左矢印
     let hideDom = (arr)=>{$.each(arr, (i,c)=>{$(c).hide()})}
     let flexDom = (arr)=>{$.each(arr, (i,c)=>{$(c).css('display','flex')})}
@@ -164,12 +165,17 @@ $(()=>{
     }
     // 投稿種別の選択
     $('.newSelectCheck').on('click', function(){
-        $(this).parent().find('.opacity-1').toggleClass('opacity-0 opacity-1')
-        $(this).find('.opacity-0').toggleClass('opacity-0 opacity-1')
-        $('#newSelect').toggleClass('hidden')
-        $('#newForm').attr('action', $(this).attr('action'))
         $('.newSubmitTitle').hide()
         $(`#newSubmitTitle${$(this).attr('index')}`).show()
+        $('#newSelect').toggleClass('hidden')
+        // 投稿先を変更
+        $('#newForm').attr('action', $(this).attr('action'))
+        if($(this).attr('method')){
+            $('#newForm').attr('method', $(this).attr('method'))
+        }
+        // 項目チェックマークの移動
+        $(this).parent().find('.opacity-1').toggleClass('opacity-0 opacity-1')
+        $(this).find('.opacity-0').toggleClass('opacity-0 opacity-1')
     })
     $('#newSelectButton').on('click', function(){
         $('#newSelect').toggleClass('hidden')

@@ -61,17 +61,21 @@
 #preview h1 {
   font-size: 30px;
   padding: 12px 0;
-  margin-bottom: 12px;
+  margin: 24px 0;
 }
 #preview h2 {
   font-size: 24px;
   padding: 10px 0;
-  margin-bottom: 10px;
+  margin: 20px 0;
 }
 #preview h3 {
   font-size: 18px;
   padding: 8px 0;
-  margin-bottom: 8px;
+  margin: 16px 0;
+}
+#preview li {
+  list-style-type: disc;
+  list-style: inside;
 }
 pre {
   color: white;

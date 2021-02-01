@@ -1,5 +1,5 @@
 <%= render "layouts/header" %>
-<div class="flex h-screen-header text-gray-700">
+<div class="flex h-screen-header text-gray-700 relative">
     <div class="w-360px bg-gray-100 text-sm overflow-scroll">
         <div class="p-6 flex justify-between items-center border-b">
             <span class="font-bold">下書き一覧</span>
@@ -18,16 +18,41 @@
             <%= render "articles/templates/draftPreview", d: d %>
         <% end %>
     </div>
+    <a href="" id="draftEdit" data-turbolinks="false" class="flex justify-center items-center absolute right-5 bottom-20 bg-gray-500 hover:bg-gray-400 w-9 h-9 rounded-full text-white">
+        <i class="fa fa-edit pl-1"></i>
+    </a>
+    <a href="" id="draftDelete" data-method="DELETE" class="flex justify-center items-center absolute right-5 bottom-7 bg-red-600 hover:opacity-50 w-9 h-9 rounded-full text-white">
+        <i class="fa fa-trash"></i>
+    </a>
 </div>
 
 <style>
     #preview {
         width: calc(100% - 360px);
     }
+    .draftActive {
+        background-color: white;
+    }
+    .draftActive::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background-color: #55c500;
+    }
 </style>
 
 <script>
 $(()=>{
+    // 編集ボタン/削除ボタンの動作設定
+    let setDraftButton = (e)=>{
+        $('#draftEdit').attr('href',`/articles/${e.eq(0).attr('draft')}/edit`)
+        $('#draftDelete').attr('href',`/articles/${e.eq(0).attr('draft')}`)
+    }
+    setDraftButton($('.draft'))
+
     marked.setOptions({
         breaks: true,
         langPrefix: '',
@@ -37,6 +62,16 @@ $(()=>{
     })
     $('.showArticle').filter((i,s)=>{
         $(s).html(marked($(s).html()))
+    })
+    $('.draft').eq(0).addClass('draftActive')
+    $('.draftPreview').eq(0).show()
+    
+    $('.draft').on('click', function(){
+        $('.draftPreview').hide()
+        $('.draftActive').removeClass('draftActive')
+        $(this).addClass('draftActive')
+        $(`#draft${$(this).attr('draft')}`).show()
+        setDraftButton($(this))
     })
 })
 </script>
