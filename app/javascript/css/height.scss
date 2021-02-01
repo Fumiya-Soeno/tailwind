@@ -1,5 +1,0 @@
-@for $i from 1 through 4096 {
-  .h-#{$i}px {
-    height: #{$i}px;
-  }
-}

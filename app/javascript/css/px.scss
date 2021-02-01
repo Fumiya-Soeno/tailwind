@@ -1,0 +1,14 @@
+@for $i from 1 through 4096 {
+  .h-#{$i}px {
+    height: #{$i}px;
+  }
+  .w-#{$i}px {
+    width: #{$i}px;
+  }
+}
+
+@for $i from 1 through 144 {
+  .font-#{$i}px {
+    font-size: #{$i}px;
+  }
+}

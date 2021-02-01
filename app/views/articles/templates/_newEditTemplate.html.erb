@@ -1,0 +1,14 @@
+<%# 呼び出し元: app/views/articles/new.html.erb, app/views/articles/edit.html.erb%>
+<%= form_with model: article ,id: "newForm" do |f| %>
+    <%= f.text_field :title, placeholder: "タイトル", id: "newTitle", class: "border w-full my-1 py-1 px-2 text-2xl placeholder-gray-500" %>
+    <%= f.text_field :tags , placeholder: "プログラミング技術に関連するタグをスペース区切りで5つまで入力（例: Ruby Rails）", class: "border w-full py-1 px-2 text-sm placeholder-gray-500 shadow-inner", value: @tags %>
+    <%= render 'articles/templates/newHeader' %>
+    <%= render 'articles/templates/newBody', f: f %>
+    <%= render 'articles/templates/newFooter' %>
+<% end %>
+
+<%# editの場合は初期アクションをdraft_to_actionにセットする %>
+<% if action_name === "edit" %>
+    <span id="actionName" class="hidden" action="/articles/<%= @article.id %>/draft_to_article"></span>
+    <script> $(()=>{ $('#newForm').attr('action', $('#actionName').attr('action')) }) </script>
+<% end %>

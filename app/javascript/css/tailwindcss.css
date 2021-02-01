@@ -30,6 +30,9 @@
 .text-qiita {
   color: #55c500;
 }
+.text-qiita-h:hover {
+  color: #55c500;
+}
 .text-qiita-sub {
   color: #568f28;
 }
@@ -58,21 +61,28 @@
 #preview h1 {
   font-size: 30px;
   padding: 12px 0;
-  margin-bottom: 12px;
+  margin: 24px 0;
 }
 #preview h2 {
   font-size: 24px;
   padding: 10px 0;
-  margin-bottom: 10px;
+  margin: 20px 0;
 }
 #preview h3 {
   font-size: 18px;
   padding: 8px 0;
-  margin-bottom: 8px;
+  margin: 16px 0;
+}
+#preview li {
+  list-style-type: disc;
+  list-style: inside;
 }
 pre {
   color: white;
   padding: 1rem;
   margin: 1rem 0;
   background: rgb(55, 55, 55);
+}
+.h-screen-header {
+  height: calc(100vh - 56px);
 }
