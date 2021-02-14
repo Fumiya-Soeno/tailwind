@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: {
     registrations: 'users/registrations',
-    registrations: 'users/sessions'
+    sessions: 'users/sessions'
   }
   root 'articles#index'
 
