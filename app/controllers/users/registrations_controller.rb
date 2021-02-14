@@ -12,6 +12,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     @user = User.new(sign_up_params)
+    if User.find_by(email: @user.email)
+      sign_in(@user)
+      redirect_to root_path
+      return
+    end
     if @user.save
       @profile = Profile.create(params[:user][:profile].permit(:nickname).merge(user_id: @user.id))
       sign_in(:user, @user)
