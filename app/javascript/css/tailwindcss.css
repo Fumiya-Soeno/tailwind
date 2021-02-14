@@ -12,20 +12,17 @@
   width: 100%;
   max-width: 1088px;
 }
-.text-11px {
-  font-size: 11px;
-}
 .bg-qiita {
-  background: #55c500;
+  background-color: #55c500;
 }
 .bg-qiita-h:hover {
-  background: #45751f;
+  background-color: #45751f;
 }
 .bg-qiita-sub {
-  background: #568f28;
+  background-color: #568f28;
 }
 .bg-qiita-notify {
-  background: #e14b22;
+  background-color: #e14b22;
 }
 .text-qiita {
   color: #55c500;
@@ -40,7 +37,7 @@
   border: 3px solid #55c500;
 }
 .bg-qiita-sub:hover {
-  background: #45751f;
+  background-color: #45751f;
 }
 .period {
   border-bottom: 2px solid rgba(0, 0, 0, 0);
@@ -88,7 +85,7 @@ pre {
   color: white;
   padding: 1rem;
   margin: 1rem 0;
-  background: rgb(55, 55, 55);
+  background-color: rgb(55, 55, 55);
 }
 .h-screen-header {
   height: calc(100vh - 56px);
