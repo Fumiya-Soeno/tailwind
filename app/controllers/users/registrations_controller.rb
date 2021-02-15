@@ -12,16 +12,21 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     @user = User.new(sign_up_params)
-    if User.find_by(email: @user.email)
+    @registered_user = User.find_by(email: @user.email)
+    # 登録済みユーザーならログイン
+    if @registered_user != nil && @registered_user.valid_password?(params[:user][:password])
+      sign_in(@registered_user)
+      redirect_to root_path
+      return
+    end
+    # 未登録ユーザーなら新規登録
+    if @user.valid? && @user.save
+      @profile = Profile.create(params[:user][:profile].permit(:nickname).merge(user_id: @user.id))
       sign_in(@user)
       redirect_to root_path
       return
     end
-    if @user.save
-      @profile = Profile.create(params[:user][:profile].permit(:nickname).merge(user_id: @user.id))
-      sign_in(:user, @user)
-      redirect_to root_path
-    end
+    redirect_to root_path
   end
 
   # GET /resource/edit
