@@ -1,9 +1,10 @@
 class ArticlesController < ApplicationController
     before_action :set_article, only: [:show,:edit,:update,:draft_to_article,:destroy]
+    before_action :authenticate_user!, except: [:index, :show]
 
     # 下書き一覧
     def drafts
-        @drafts = Article.where(draft: true)
+        @drafts = Article.where(draft: true, user: current_user.id)
     end
 
     # 新規投稿画面のform_withにインスタンスを渡しておく
@@ -90,7 +91,7 @@ class ArticlesController < ApplicationController
     def article_params
         # 本文頭がpreになる問題を回避するために文頭に改行コードを挿入
         params[:article][:body] = "\n" + params[:article][:body] if params[:article][:body][0] != "\n"
-        params[:article].permit(:title, :body)
+        params[:article].permit(:title, :body).merge(user_id: current_user.id)
     end
 
     # タグをスペース区切りで分解しtag_articlesテーブルに登録
