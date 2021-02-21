@@ -1,0 +1,43 @@
+<%# 呼び出し元：users/show.html.erb %>
+<div class="bg-white w-360px flex items-center flex-col p-6 mr-4 relative">
+    <i class="fa fa-ellipsis-h absolute top-6 right-6 text-gray-500 cursor-pointer"></i>
+    <div class="flex justify-center items-center fa fa-user text-gray-600 bg-gray-200 inline-block w-16 h-16 rounded-full font-36px my-4"></div>
+    <% if user.profile.firstname && user.profile.lastname %>
+        <div class="font-bold text-xl mb-1"><%= user.profile.firstname + " " + user.profile.lastname %></div>
+    <% end %>
+    <div class="text-sm text-gray-500 mb-3">@<%= user.name %></div>
+    <% if user.profile.github %>
+        <div class="mb-2">
+            <i class="fab fa-github"></i>
+            <a href="<%= user.profile.github %>" class="hover:underline">
+                <%= user.profile.github.gsub("https://github.com/","").gsub("/","") %>
+            </a>
+        </div>
+    <% end %>
+    <% if user.profile.twitter %>
+        <a href="<%= user.profile.twitter %>" class="text-xl mb-2" style="color: #1DA1F2;"><i class="fab fa-twitter"></i></a>
+    <% end %>
+    <% if user.profile.profile %>
+        <div class="text-sm text-center break-all my-2"><%= user.profile.profile %></div>
+    <% end %>
+    <div class="flex w-full mt-2 mb-4">
+        <%= render "users/templates/score", title: "投稿", score: user.articles.count %>
+        <%= render "users/templates/score", title: "Contributions", score: 0 %>
+        <%= render "users/templates/score", title: "フォロワー", score: 0 %>
+    </div>
+    <a href="" class="h-8 leading-8 w-full bg-gray-500 hover:bg-gray-400 text-white font-bold text-sm text-center">プロフィールを編集する</a>
+    <% if user.profile.site || user.profile.residence %>
+        <div class="mt-6 pt-6 text-sm text-gray-500 border-t w-full">
+            <% if user.profile.site %>
+                <div class="mb-3">
+                    <i class="fa fa-globe-asia"></i>
+                    <a href="<%= user.profile.site %>"><%= user.profile.site %></a>
+                </div>
+            <% end %>
+            <% if user.profile.residence %>
+                <i class="fa fa-map-marker-alt pr-1"></i>
+                <a href="<%= user.profile.residence %>"><%= user.profile.residence %></a>
+            <% end %>
+        </div>
+    <% end %>
+</div>

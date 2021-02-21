@@ -23,4 +23,6 @@ Rails.application.routes.draw do
   questions.each do |r|
     get "questions/#{r}"
   end
+
+  resources :users, only: :show
 end
