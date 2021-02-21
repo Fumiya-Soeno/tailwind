@@ -24,10 +24,8 @@
                     <% @classes_form = "w-full rounded shadow-inner p-3 my-2 text-gray-700 text-sm" %>
                     <% @classes_label = "absolute w-100px h-40px flex justify-end items-center -left-100px mt-10px text-xs" %>
                     <%= form_with model: User.new, url: user_registration_path, class: "relative", id: "user_form" do |f| %>
-                        <%= f.fields_for :profile do |p| %>
-                            <%= p.label :nickname, "ユーザー名", class: @classes_label %>
-                            <%= p.text_field :nickname, placeholder: "kiitan", class: @classes_form %>
-                        <% end %>
+                        <%= f.label :name, "ユーザー名", class: @classes_label %>
+                        <%= f.text_field :name, placeholder: "kiitan", class: @classes_form %>
                         <%= f.label :email, "メールアドレス", class: @classes_label %>
                         <%= f.email_field :email, autocomplete: "email", placeholder: "kiitan@kiita.com", class: @classes_form %>
                         <%= f.label :password, "パスワード", class: @classes_label %>
@@ -81,7 +79,7 @@
             alert(message)
         }
         $(document).on('click', '#user_submit', function(e){
-            if($('#user_profile_nickname').val() == ""){
+            if($('#user_profile_name').val() == ""){
                 alertForm(e,'ユーザー名を入力して下さい')
             } else if($('#user_email').val() == "") {
                 alertForm(e,'メールアドレスを入力して下さい')

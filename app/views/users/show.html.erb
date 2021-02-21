@@ -1,0 +1,91 @@
+<%= render "layouts/header" %>
+<div class="py-8 px-4 relative bg-gray-100 flex justify-center text-gray-700 items-start">
+    <%= render "users/templates/left", user: @user %>
+    <div class="w-full-360px">
+        <div class="bg-gray-700 text-white text-sm p-6 mb-4">
+            <div class="font-bold mb-6">$ analyze @<%= @user.name %></div>
+            <div class="flex">
+                <% @classes_posts = "w-1/3" %>
+                <div class="<%= @classes_posts %>">
+                    <p style="color: #EBD247;">投稿した記事</p>
+                    <div class="ml-4 mt-2">
+                        <% if @tagCount.count != 0 %>
+                            <% @tagCount.each do |t| %>
+                                <p>
+                                    <span class="pr-4"><%= t[0] %>:</span>
+                                    <span style="color: #8BDF4C;"><%= t[1] %>%</span>
+                                </p>
+                            <% end %>
+                        <% else %>
+                            No data
+                        <% end %>
+                    </div>
+                </div>
+                <div class="<%= @classes_posts %>">
+                    <p style="color: #EBD247;">LGTMした記事</p>
+                    <div class="ml-4 mt-2">
+                        No data
+                    </div>
+                </div>
+                <div class="<%= @classes_posts %>">
+                    <p style="color: #EBD247;">回答した質問</p>
+                    <div class="ml-4 mt-2">
+                        No data
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white p-6 mb-4">
+            <p class="font-bold mb-4 relative thumbtack-line">
+                <i class="fas fa-thumbtack text-qiita mr-1 "></i>
+                ピックアップ記事
+            </p>
+            <p class="flex justify-center text-xs text-gray-400 mb-2">あなたがアピールしたい記事を設定してみましょう :)</p>
+            <div class="flex justify-center">
+                <button class="px-4 py-3 font-bold text-white text-sm bg-qiita">ピックアップ記事を設定する</button>
+            </div>
+        </div>
+        <div class="bg-white p-6 mb-4">
+            <p class="font-bold flex items-center mb-4">
+                <span class="bg-qiita w-16px h-16px mr-2 inline-block"></span>
+                <span>全ての投稿</span>
+            </p>
+            <% @user.articles.each do |a| %>
+                <div class="border-t py-4">
+                    <div class="text-xs text-gray-400 mb-2">
+                        <i class="fa fa-tags"></i>
+                        <% a.tag_articles.each do |t|  %>
+                            <a href="" class="hover:underline"><%= Tag.find(t.tag_id).name %></a>
+                        <% end %>
+                    </div>
+                    <a href="/articles/<%= a.id %>" class="font-bold text-gray-700">
+                        <%= a.title %>
+                    </a>
+                    <div class="text-xs flex justify-between">
+                        <div>
+                            <span class="font-sans font-extrabold w-6 cursor-default text-qiita">LGTM</span>
+                            <span>0</span>
+                        </div>
+                        <div class="text-gray-400"><%= a.created_at.strftime('%Y/%m/%d') %></div>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+    </div>
+</div>
+
+<style>
+    .w-full-360px {
+        width: calc(100% - 360px);
+        max-width: 692px;
+    }
+    .thumbtack-line::before{
+        position: absolute;
+        top: 7px;
+        left: 4px;
+        content: '';
+        width: 1px;
+        height: 6px;
+        background-color: white;
+    }
+</style>

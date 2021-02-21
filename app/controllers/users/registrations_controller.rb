@@ -21,7 +21,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
     # 未登録ユーザーなら新規登録
     if @user.valid? && @user.save
-      @profile = Profile.create(params[:user][:profile].permit(:nickname).merge(user_id: @user.id))
+      @profile = Profile.create(user_id: @user.id)
       sign_in(@user)
       redirect_to root_path
       return
