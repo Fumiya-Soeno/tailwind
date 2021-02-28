@@ -211,6 +211,7 @@ $(()=>{
             }, function(err, data) {
                 if (data !== null) {
                     let body = $('#article_body').val()
+                    if (body == undefined){ return }
                     $('#article_body').val(body + '![](' + `https://${bucket}.s3-${region}.amazonaws.com/${file.name}` +')\n')
                     $('#article_body').trigger('keyup')
                 } else {
@@ -221,6 +222,9 @@ $(()=>{
     }
     $('.newModalIcon1').on('click',function(){
         $('#bodyImageUpload').trigger('click')
+    })
+    $('#upload').on('change',function(){
+        $('#iconImageUpload').trigger('click')
     })
     $('#bodyImageUpload').on('change', function(){
         UploadToS3($(this).prop('files')[0])

@@ -13,6 +13,8 @@ class CreateProfiles < ActiveRecord::Migration[6.0]
       t.string     :facebook
       t.string     :github
       t.string     :google
+      t.string     :icon
+      t.integer    :icon_type, null: false, default: 0
       t.timestamps
     end
   end
