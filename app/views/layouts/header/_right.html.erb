@@ -18,7 +18,11 @@
     </div>
     <%# モーダルボタン4 %>
     <div class="modal-btn4 relative cursor-pointer" id="user-btn" id="user-btn">
-        <div class="fa fa-user text-gray-600 bg-gray-200 inline-block w-7 h-7 leading-7 text-center rounded-full"></div>
+        <% if current_user.profile.icon == nil %>
+            <div class="fa fa-user text-gray-600 bg-gray-200 inline-block w-7 h-7 leading-7 text-center rounded-full"></div>
+        <% else %>
+            <img src="<%= current_user.profile.icon %>" class="inline-block rounded-full w-7 h-7 object-cover">
+        <% end %>
         <div id="user-btn-icon" class="fa fa-caret-down fa-xs ml-1 gb-gray-200 text-qiita-sub"></div>
         <%= render "layouts/header/modals/user" %>
     </div>

@@ -1,0 +1,142 @@
+<%= render "layouts/header" %>
+<div id="userId" class="hidden" userId="<%= current_user.id %>"></div>
+<div id="userIconType" class="hidden" userIconType="<%= current_user.profile.icon_type %>"></div>
+<% title = "アカウント" %>
+<div class="py-8 px-4 relative bg-gray-100 flex justify-center text-gray-700 items-start">
+    <%= render "/profiles/templates/left", title: title %>
+    <div class="w-full-280px bg-white p-8">
+        <div class="flex justify-center items-center mt-2 mb-6">
+            <% if current_user.profile.icon == nil %>
+                <div class="flex justify-center items-center fa fa-user text-gray-600 bg-gray-200 inline-block w-8 h-8 rounded-full mr-2"></div>
+            <% else %>
+                <img src="<%= current_user.profile.icon %>" class="inline-block rounded-full w-8 h-8 object-cover mr-2">
+            <% end %>
+            <div class="text-2xl text-gray-500">
+                <span class="mr-1"><%= current_user.name %></span>
+                <span class="mr-1">アカウント</span>
+                <span class="mr-1 text-gray-200">/</span>
+                <span class="mr-1 font-bold"><%= title %></span>
+            </div>
+        </div>
+        <div class="text-sm font-bold mb-2">アイコン</div>
+        <%= form_with model: @user, url: profiles_update_account_path, id: "account_form" do |f| %>
+            <div class="flex px-6">
+                <label for="user_icon_type_0" class="mr-6">
+                    <div class="flex items-center">
+                        <%= f.radio_button :icon_type, 0, class: "mr-2" %>
+                        <div class="flex justify-center items-center fa fa-user text-gray-600 bg-gray-200 inline-block w-12 h-12 font-24px rounded-full"></div>
+                    </div>
+                    <div class="font-10px font-bold pt-2 flex justify-end">設定しない</div>
+                </label>
+                <label for="user_icon_type_1" class="mr-6">
+                    <div class="flex items-center">
+                        <%= f.radio_button :icon_type, 1, class: "mr-2" %>
+                        <% if current_user.profile.icon == nil %>
+                            <div id="dummy" class="flex justify-center items-center fa fa-image text-gray-600 bg-gray-200 inline-block w-12 h-12 font-24px rounded-full"></div>
+                        <% else %>
+                            <img id="dummy" src="<%= current_user.profile.icon %>" class="inline-block rounded-full w-12 h-12 object-cover">
+                        <% end %>
+                        <img id="preview" class="w-48px h-48px rounded-full object-cover hidden">
+                    </div>
+                    <div class="font-10px font-bold pt-2 ml-4 flex justify-end text-center">画像<br>アップロード</div>
+                </label>
+                <input type="file" id="iconImageUpload" class="hidden">
+            </div>
+            <div class="text-sm font-bold mb-2">ユーザー名</div>
+            <%= f.text_field :name, class: "border border-gray-300 rounded-sm py-1 px-4 mb-6 block" %>
+            <%= f.submit "更新する" , id: "account_submit", class: "bg-qiita bg-qiita-h text-sm text-white px-4 py-2 cursor-pointer block" %>
+        <% end %>
+    </div>
+</div>
+
+<style>
+    .w-full-280px {
+        width: calc(100% - 280px);
+        max-width: 792px;
+    }
+</style>
+
+<script>
+    $(()=>{
+        // アイコン種別のラジオボタンを選択する
+        $(`#user_icon_type_${$('#userIconType').attr('userIconType')}`).prop('checked', true)
+        // アイコン画像のプレビュー
+        $('#iconImageUpload').on('change', function(e){
+            let reader = new FileReader()
+            let file = e.target.files[0]
+            if(file.type.indexOf("image") < 0){
+                alert("画像ファイルを指定してください。")
+                return false
+            }
+            reader.onload = (function(file){
+                return function(e){
+                    $("#preview").attr("src", e.target.result)
+                    $("#preview").attr("title", file.name)
+                    $("#preview").removeClass('hidden')
+                }
+            })(file)
+            reader.readAsDataURL(file)
+            $('#dummy').remove()
+        })
+        // アイコン画像アップロード
+        const userId = $('#userId').attr('userId')
+        const bucket_name = 'onseo'
+        const bucket_dir = '/kiita/icons/' + userId
+        const region = 'ap-northeast-1'
+        AWS.config.update({
+            region: region,
+            accessKeyId: gon.access_key_id,
+            secretAccessKey: gon.secret_access_key
+        })
+        AWS.config.apiVersions = {
+            rekognition: '2016-06-27',
+        }
+        const setIcon = function(file) {
+            const s3 = new AWS.S3({
+                params: {
+                    Bucket: bucket_name + bucket_dir,
+                    Region: region
+                }
+            })
+            if (file) {
+                s3.putObject({
+                    Body: file,
+                    Key: file.name,
+                    ContentType: file.type,
+                    ACL: "public-read"
+                }, function(err, data) {
+                    if (data !== null) {
+                        const iconFileName = $("#preview").attr("title")
+                        $.ajax({
+                            type: 'post',
+                            url: '/profiles/set_icon',
+                            data: {icon: `https://onseo.s3-${region}.amazonaws.com${bucket_dir}/${iconFileName}`}
+                        })
+                    } else {
+                        console.log(err)
+                    }
+                })
+            }
+        }
+        //
+        $('#user_icon_type_1').on('change', function(){
+            $('#iconImageUpload').trigger('click')
+        })
+        // 必要な情報が入力されていない場合にアラートを出して処理を中止する
+        const alertForm = function(e,message){
+            alert(message)
+        }
+        $(document).on('click', '#account_submit', function(e){
+            e.preventDefault()
+            let file = $('#iconImageUpload').prop('files')[0]
+            if($('#user_name').val() == ""){
+                alertForm(e,'ユーザー名を入力して下さい')
+                return false
+            }
+            if(file){
+                setIcon(file)
+            }
+            $('#account_form').submit()
+        })
+    })
+</script>

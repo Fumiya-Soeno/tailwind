@@ -1,0 +1,48 @@
+<%= render "layouts/header" %>
+<% title = "公開用プロフィール" %>
+<div class="py-8 px-4 relative bg-gray-100 flex justify-center text-gray-700 items-start">
+    <%= render "/profiles/templates/left", title: title %>
+    <div class="w-full-280px bg-white p-8">
+        <div class="flex justify-center items-center mt-2 mb-6">
+            <% if current_user.profile.icon == nil %>
+                <div class="flex justify-center items-center fa fa-user text-gray-600 bg-gray-200 inline-block w-8 h-8 rounded-full mr-2"></div>
+            <% else %>
+                <img src="<%= current_user.profile.icon %>" class="inline-block rounded-full w-8 h-8 object-cover mr-2">
+            <% end %>
+            <div class="text-2xl text-gray-500">
+                <span class="mr-1"><%= current_user.name %></span>
+                <span class="mr-1">アカウント</span>
+                <span class="mr-1 text-gray-200">/</span>
+                <span class="mr-1 font-bold"><%= title %></span>
+            </div>
+        </div>
+        <%= form_with model: current_user.profile, url: profiles_update_path do |f| %>
+            <div class="text-sm font-bold mb-2">名前</div>
+            <% classes_text_field = " border border-gray-300 rounded-sm py-1 px-4 mb-6" %>
+            <% classes_text_label = "text-sm font-bold mb-4" %>
+            <div class="mb-4 flex">
+                <%= f.text_field :lastname,  class: "mr-2 w-1/2" + classes_text_field, placeholder: "名" %>
+                <%= f.text_field :firstname, class: "ml-1 w-1/2" + classes_text_field, placeholder: "姓" %>
+            </div>
+            <div class="<%= classes_text_label %>">公開メールアドレス</div>
+            <%= f.check_box :email_publish %><span class="text-sm pl-1">メールアドレスを全体に公開する</span>
+            <div class="text-sm text-gray-400 mt-2 mb-4">誰もがあなたのメールアドレス(<span class="text-xs"><%= current_user.email %></span>)を見れる状態になります。</div>
+            <div class="<%= classes_text_label %>">サイト/ブログ</div>
+            <%= f.text_field :site, class: "w-full" + classes_text_field %>
+            <div class="<%= classes_text_label %>">所属している組織・企業</div>
+            <%= f.text_field :company, class: "w-full" + classes_text_field %>
+            <div class="<%= classes_text_label %>">居住地</div>
+            <%= f.text_field :residence,  class: "w-full" + classes_text_field %>
+            <div class="<%= classes_text_label %>">自己紹介</div>
+            <%= f.text_area :profile, class: "w-full text-sm" + classes_text_field, style: "min-height: 100px;" %>
+            <%= f.submit "更新する" , class: "bg-qiita bg-qiita-h text-sm text-white px-4 py-2 cursor-pointer" %>
+        <% end %>
+    </div>
+</div>
+
+<style>
+    .w-full-280px {
+        width: calc(100% - 280px);
+        max-width: 792px;
+    }
+</style>

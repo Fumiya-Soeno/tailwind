@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: {
-    registrations: 'users/registrations'
+    registrations: 'users/registrations',
+    sessions: 'users/sessions'
   }
   root 'articles#index'
 
@@ -25,4 +26,11 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: :show
+  
+  get   "profiles/edit"
+  patch "profiles/update"
+  get   "profiles/account"
+  patch "profiles/update_account"
+  post  "profiles/set_icon"
+  post  "profiles/unset_icon"
 end
