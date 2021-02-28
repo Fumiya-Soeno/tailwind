@@ -1,7 +1,7 @@
 <%# 呼び出し元：users/show.html.erb %>
 <div class="bg-white w-360px flex items-center flex-col p-6 mr-4 relative">
     <i class="fa fa-ellipsis-h absolute top-6 right-6 text-gray-500 cursor-pointer"></i>
-    <% if @user.profile.icon == nil %>
+    <% if @user.profile.icon_type == 0 %>
         <div class="flex justify-center items-center fa fa-user text-gray-600 bg-gray-200 w-16 h-16 rounded-full font-36px my-4"></div>
     <% else %>
         <img src="<%= @user.profile.icon %>" class="inline-block rounded-full w-16 h-16 object-cover my-4">
