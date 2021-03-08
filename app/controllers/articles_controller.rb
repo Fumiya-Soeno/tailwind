@@ -1,6 +1,7 @@
 class ArticlesController < ApplicationController
     before_action :set_article, only: [:show,:edit,:update,:draft_to_article,:destroy]
     before_action :authenticate_user!, except: [:index, :show]
+    before_action :check_editable_user, only: [:edit, :update, :draft_to_article, :destroy]
 
     # 下書き一覧
     def drafts
@@ -113,4 +114,12 @@ class ArticlesController < ApplicationController
     def register_tag(tag)
         Tag.create(name: tag) unless Tag.find_by(name: tag).present?
     end
+
+    # その記事の筆者のみ編集や削除を可能にする
+    def check_editable_user
+        if @article.user != current_user
+            redirect_to root_path
+        end
+    end
+    
 end

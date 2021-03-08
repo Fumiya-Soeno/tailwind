@@ -2,16 +2,34 @@
 
 <div class="py-8 px-12 relative bg-gray-100 flex justify-center">
     <div class="bg-white w-768px mr-4 p-8">
-        <div class="flex items-center mb-6">
-            <a href="<%= user_path(@article.user) %>" data-turbolinks="false" class="flex">
-                <% if @article.user.profile.icon == nil %>
-                    <i class="fas fa-user text-gray-600 rounded-full bg-gray-200 flex justify-center items-center w-8 h-8 mr-2"></i>
-                <% else %>
-                    <img src="<%= @article.user.profile.icon %>" class="w-8 h-8 object-cover rounded-full inline-block mr-2">
-                <% end %>
-                <div class="mr-4 hover:underline font-18px" data-turbolinks="false">@<%= @article.user.name %></div>
-            </a>
-            <span class="text-gray-500 text-sm flex items-center"><%= @article.created_at.strftime('%Y年%m月%d日') %>に投稿</span>
+        <div class="flex items-center mb-6 justify-between">
+            <div class="flex">
+                <a href="<%= user_path(@article.user) %>" data-turbolinks="false" class="flex">
+                    <% if @article.user.profile.icon == nil %>
+                        <i class="fas fa-user text-gray-600 rounded-full bg-gray-200 flex justify-center items-center w-8 h-8 mr-2"></i>
+                    <% else %>
+                        <img src="<%= @article.user.profile.icon %>" class="w-8 h-8 object-cover rounded-full inline-block mr-2">
+                    <% end %>
+                    <div class="mr-4 hover:underline font-18px" data-turbolinks="false">@<%= @article.user.name %></div>
+                </a>
+                <span class="text-gray-500 text-sm flex items-center"><%= @article.created_at.strftime('%Y年%m月%d日') %>に投稿</span>
+            </div>
+            <% if @article.user == current_user %>
+                <div class="flex text-xs text-gray-500">
+                    <div>
+                        <a href="<%= edit_article_path(@article) %>" class="flex items-center">
+                            <i class="fa fa-pencil-alt pr-1"></i>
+                            <span class="hover:underline">編集する</span>
+                        </a>
+                    </div>
+                    <div class="ml-4">
+                        <a href="<%= article_path(@article) %>" data-method="DELETE" class="flex items-center">
+                            <i class="fa fa-trash pr-1"></i>
+                            <span class="hover:underline">削除する</span>
+                        </a>
+                    </div>
+                </div>
+            <% end %>
         </div>
         <div class="font-bold font-40px mb-4"><%= @article.title %></div>
         <div class="mb-12">
