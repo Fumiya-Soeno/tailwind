@@ -31,29 +31,67 @@
         <div id="preview" class="pb-6">
             <%= @article.body %>
         </div>
-
-        <div class="flex justify-between pb-6 border-b border-gray-400">
+        <div class="flex justify-between pb-8 mb-8 border-b border-gray-400">
             <div class="flex">
                 <button class="text-gray-500 font-bold border-2 border-gray-500 px-2 mr-2">
                     <i class="far fa-bookmark pr-1"></i>
                     <span class="text-sm">ストック</span>
                 </button>
                 <div class="flex justify-center items-center">
-                    <button class="font-sans text-qiita border-2 mr-2" style="border-color: #55c500;">
+                    <button class="font-sans text-qiita border-2 mr-2 h-8" style="border-color: #55c500;">
                         <span class="font-extrabold cursor-default text-qiita px-2">LGTM</span>
                     </button>
-                    <span class="text-qiita text-sm font-bold">0</span>
+                    <span class="text-gray-500 text-sm font-bold">0</span>
                 </div>
             </div>
-            <div>
-                <i class="fab fa-twitter" style="color: #1DA1F2;"></i>
+            <div class="flex">
+                <% classes_sns_icon = "flex items-center justify-center bg-gray-400 text-white rounded-full w-8 h-8 cursor-pointer ml-2" %>
+                <div class="<%= classes_sns_icon + " h-bg-twitter"%>">
+                    <i class="fab fa-twitter"></i>
+                </div>
+                <div class="<%= classes_sns_icon + " h-bg-facebook"%>">
+                    <i class="fab fa-facebook-f"></i>
+                </div>
+            </div>
+        </div>
+        <div class="flex">
+            <a href="<%= user_path(@article.user.id) %>">
+                <% if @article.user.profile.icon_type == 0 %>
+                    <div class="flex justify-center items-center fa fa-user text-gray-600 bg-gray-200 w-16 h-16 rounded-full font-36px"></div>
+                <% else %>
+                    <img src="<%= @article.user.profile.icon %>" class="inline-block rounded-full w-16 h-16 object-cover">
+                <% end %>
+            </a>
+            <div class="ml-4 w-full-5rem">
+                <div class="flex items-center h-4">
+                    <% if @article.user.profile.firstname != nil && @article.user.profile.lastname != nil %>
+                        <a href="<%= user_path(@article.user.id) %>" class="font-bold hover:underline"><%= @article.user.profile.firstname + " " + @article.user.profile.lastname %></a>
+                    <% end %>
+                    <a href="<%= user_path(@article.user.id) %>" class="text-sm text-gray-400 font-bold ml-2 hover:underline">@<%= @article.user.name %></a>
+                </div>
+                <% if @article.user.profile.profile != "" %>
+                    <div class="text-sm text-gray-500 break-all mt-2"><%= @article.user.profile.profile %></div>
+                <% end %>
+                <% if @article.user.profile.site %>
+                    <a class="text-sm text-gray-500 hover:underline" href="<%= @article.user.profile.site %>"><%= @article.user.profile.site %></a>
+                <% end %>
             </div>
         </div>
     </div>
     <%= render "layouts/advertisement" %>
 </div>
 
-
+<style>
+.h-bg-twitter:hover{
+    background-color: #00ACEE;
+}
+.h-bg-facebook:hover{
+    background-color: #3B5998;
+}
+.w-full-5rem{
+    max-width: calc(100% - 5rem);
+}
+</style>
 
 <script>
 $(()=>{
