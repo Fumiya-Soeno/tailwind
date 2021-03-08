@@ -21,8 +21,33 @@
                 </a>
             <% end %>
         </div>
-        <div id="preview">
+        <div class="mb-8 flex justify-center">
+            <button class="flex justify-center items-center font-sans text-qiita w-3/4 border-2 mr-2 h-46px" style="border-color: #55c500;">
+                <span class="font-extrabold cursor-default text-qiita mr-2 font-18px">LGTM</span>
+                <span>0</span>
+            </button>
+            <button class="w-1/4 border-2 border-gray-500 text-gray-500"><i class="far fa-bookmark"></i></button>
+        </div>
+        <div id="preview" class="pb-6">
             <%= @article.body %>
+        </div>
+
+        <div class="flex justify-between pb-6 border-b border-gray-400">
+            <div class="flex">
+                <button class="text-gray-500 font-bold border-2 border-gray-500 px-2 mr-2">
+                    <i class="far fa-bookmark pr-1"></i>
+                    <span class="text-sm">ストック</span>
+                </button>
+                <div class="flex justify-center items-center">
+                    <button class="font-sans text-qiita border-2 mr-2" style="border-color: #55c500;">
+                        <span class="font-extrabold cursor-default text-qiita px-2">LGTM</span>
+                    </button>
+                    <span class="text-qiita text-sm font-bold">0</span>
+                </div>
+            </div>
+            <div>
+                <i class="fab fa-twitter" style="color: #1DA1F2;"></i>
+            </div>
         </div>
     </div>
     <%= render "layouts/advertisement" %>
