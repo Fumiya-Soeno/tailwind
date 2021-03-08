@@ -1,8 +1,97 @@
 <%= render "layouts/header" %>
-<%= @article.title %>
-<div id="preview">
-    <%= @article.body %>
+
+<div class="py-8 px-12 relative bg-gray-100 flex justify-center">
+    <div class="bg-white w-768px mr-4 p-8">
+        <div class="flex items-center mb-6">
+            <a href="<%= user_path(@article.user) %>" data-turbolinks="false" class="flex">
+                <% if @article.user.profile.icon == nil %>
+                    <i class="fas fa-user text-gray-600 rounded-full bg-gray-200 flex justify-center items-center w-8 h-8 mr-2"></i>
+                <% else %>
+                    <img src="<%= @article.user.profile.icon %>" class="w-8 h-8 object-cover rounded-full inline-block mr-2">
+                <% end %>
+                <div class="mr-4 hover:underline font-18px" data-turbolinks="false">@<%= @article.user.name %></div>
+            </a>
+            <span class="text-gray-500 text-sm flex items-center"><%= @article.created_at.strftime('%Y年%m月%d日') %>に投稿</span>
+        </div>
+        <div class="font-bold font-40px mb-4"><%= @article.title %></div>
+        <div class="mb-12">
+            <% @article.tag_articles.ids.each do |t| %>
+                <a href="/" class="text-sm hover:underline text-gray-600 px-2 py-1 bg-gray-200 rounded mr-1" data-turbolinks="false">
+                    <%=Tag.find(TagArticle.find(t).tag_id).name%>
+                </a>
+            <% end %>
+        </div>
+        <div class="mb-8 flex justify-center">
+            <button class="flex justify-center items-center font-sans text-qiita w-3/4 border-2 mr-2 h-46px" style="border-color: #55c500;">
+                <span class="font-extrabold cursor-default text-qiita mr-2 font-18px">LGTM</span>
+                <span>0</span>
+            </button>
+            <button class="w-1/4 border-2 border-gray-500 text-gray-500"><i class="far fa-bookmark"></i></button>
+        </div>
+        <div id="preview" class="pb-6">
+            <%= @article.body %>
+        </div>
+        <div class="flex justify-between pb-8 mb-8 border-b border-gray-400">
+            <div class="flex">
+                <button class="text-gray-500 font-bold border-2 border-gray-500 px-2 mr-2">
+                    <i class="far fa-bookmark pr-1"></i>
+                    <span class="text-sm">ストック</span>
+                </button>
+                <div class="flex justify-center items-center">
+                    <button class="font-sans text-qiita border-2 mr-2 h-8" style="border-color: #55c500;">
+                        <span class="font-extrabold cursor-default text-qiita px-2">LGTM</span>
+                    </button>
+                    <span class="text-gray-500 text-sm font-bold">0</span>
+                </div>
+            </div>
+            <div class="flex">
+                <% classes_sns_icon = "flex items-center justify-center bg-gray-400 text-white rounded-full w-8 h-8 cursor-pointer ml-2" %>
+                <div class="<%= classes_sns_icon + " h-bg-twitter"%>">
+                    <i class="fab fa-twitter"></i>
+                </div>
+                <div class="<%= classes_sns_icon + " h-bg-facebook"%>">
+                    <i class="fab fa-facebook-f"></i>
+                </div>
+            </div>
+        </div>
+        <div class="flex">
+            <a href="<%= user_path(@article.user.id) %>">
+                <% if @article.user.profile.icon_type == 0 %>
+                    <div class="flex justify-center items-center fa fa-user text-gray-600 bg-gray-200 w-16 h-16 rounded-full font-36px"></div>
+                <% else %>
+                    <img src="<%= @article.user.profile.icon %>" class="inline-block rounded-full w-16 h-16 object-cover">
+                <% end %>
+            </a>
+            <div class="ml-4 w-full-5rem">
+                <div class="flex items-center h-4">
+                    <% if @article.user.profile.firstname != nil && @article.user.profile.lastname != nil %>
+                        <a href="<%= user_path(@article.user.id) %>" class="font-bold hover:underline"><%= @article.user.profile.firstname + " " + @article.user.profile.lastname %></a>
+                    <% end %>
+                    <a href="<%= user_path(@article.user.id) %>" class="text-sm text-gray-400 font-bold ml-2 hover:underline">@<%= @article.user.name %></a>
+                </div>
+                <% if @article.user.profile.profile != "" %>
+                    <div class="text-sm text-gray-500 break-all mt-2"><%= @article.user.profile.profile %></div>
+                <% end %>
+                <% if @article.user.profile.site %>
+                    <a class="text-sm text-gray-500 hover:underline" href="<%= @article.user.profile.site %>"><%= @article.user.profile.site %></a>
+                <% end %>
+            </div>
+        </div>
+    </div>
+    <%= render "layouts/advertisement" %>
 </div>
+
+<style>
+.h-bg-twitter:hover{
+    background-color: #00ACEE;
+}
+.h-bg-facebook:hover{
+    background-color: #3B5998;
+}
+.w-full-5rem{
+    max-width: calc(100% - 5rem);
+}
+</style>
 
 <script>
 $(()=>{

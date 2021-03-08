@@ -25,28 +25,24 @@ periods = [
             <% end %>
         </div>
     </div>
-    <%
-        articles = [
-            {title:"Rails6 & Tailwind CSSでQiitaを作ってみた", tags:["CSS","Ruby","Rails","JavaScript","TailwindCSS"]},
-            {title:"WEBプログラミング学習最短ロードマップ", tags:["Rails","JavaScript","SQL","AWS","docker"]},
-            {title:"Rails6 & Tailwind CSSでQiitaを作ってみた", tags:["CSS","Ruby","Rails","JavaScript","TailwindCSS"]},
-            {title:"WEBプログラミング学習最短ロードマップ", tags:["Rails","JavaScript","SQL","AWS","docker"]},
-            {title:"Rails6 & Tailwind CSSでQiitaを作ってみた", tags:["CSS","Ruby","Rails","JavaScript","TailwindCSS"]},]
-    %>
-    <% articles.each do |a| %>
+    <% Article.all.each do |a| %>
         <div class="p-4 border-b">
-            <div class="text-sm mb-1">
-                <a href="/" class="rounded-full bg-gray-200 text-center inline-block w-5 h-5 leading-5" data-turbolinks="false">
-                    <i class="fas fa-user text-xs text-gray-600"></i>
+            <div class="text-sm mb-1 flex">
+                <a href="<%= user_path(a.user) %>" data-turbolinks="false" class="flex">
+                    <% if a.user.profile.icon == nil %>
+                        <i class="fas fa-user text-xs text-gray-600 rounded-full bg-gray-200 flex justify-center items-center w-5 h-5"></i>
+                    <% else %>
+                        <img src="<%= a.user.profile.icon %>" class="w-5 h-5 object-cover rounded-full inline-block">
+                    <% end %>
+                    <div class="mx-1 hover:underline" data-turbolinks="false">@<%= a.user.name %></div>
                 </a>
-                <a href="/" class="mx-1 hover:underline" data-turbolinks="false">@soeno_onseo</a>
-                <span class="text-gray-500">が2020年12月27日に投稿</span>
+                <span class="text-gray-500">が<%= a.created_at.strftime('%Y年%m月%d日') %>に投稿</span>
             </div>
-            <a href="/" class="hover:underline font-bold text-lg" data-turbolinks="false"><%=a[:title]%></a>
+            <a href="<%= article_path(a.id) %>" class="hover:underline font-bold text-lg" data-turbolinks="false"><%=a[:title]%></a>
             <div class="text-gray-600">
                 <i class="fas fa-tags text-xs"></i>
-                <% a[:tags].each.with_index(1) do |t,i| %>
-                    <a href="/" class="text-sm hover:underline" data-turbolinks="false"><%=t%></a><% unless i == a[:tags].length %>,<%end%>
+                <% a.tag_articles.ids.each.with_index do |t,i| %>
+                    <a href="/" class="text-sm hover:underline" data-turbolinks="false"><%=Tag.find(TagArticle.find(t).tag_id).name%></a><% unless i == a.tag_articles.ids.length - 1 %>,<%end%>
                 <% end %>
             </div>
             <div class="text-center flex items-center mt-1">
@@ -54,9 +50,8 @@ periods = [
                     <div class="h-3 tracking-widest">LG</div>
                     <div>TM</div>
                 </div>
-                <span class="text-sm ml-2 text-gray-700">100</span>
+                <span class="text-sm ml-2 text-gray-700">0</span>
             </div>
         </div>
     <% end %>
-
 </div>

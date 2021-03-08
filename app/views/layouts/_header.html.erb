@@ -15,28 +15,28 @@
                 <div class="w-200px"></div>
                 <div class="w-330px">
                     <div class="flex justify-between">
-                        <% @classes_sns_button = "bg-white hover:bg-gray-100 text-gray-700 px-4 py-2 font-14px rounded cursor-default" %>
-                        <span class="<%= @classes_sns_button %>"><i class="fab fa-github pr-1"></i>GitHub</span>
-                        <span class="<%= @classes_sns_button %>"><i class="fab fa-twitter pr-1" style="color: #4AA0EB;"></i>Twitter</span>
-                        <span class="<%= @classes_sns_button %>"><i class="fab fa-google pr-1" style="color: #D95040;"></i>Google</span>
+                        <% classes_sns_button = "bg-white hover:bg-gray-100 text-gray-700 px-4 py-2 font-14px rounded cursor-default" %>
+                        <span class="<%= classes_sns_button %>"><i class="fab fa-github pr-1"></i>GitHub</span>
+                        <span class="<%= classes_sns_button %>"><i class="fab fa-twitter pr-1" style="color: #4AA0EB;"></i>Twitter</span>
+                        <span class="<%= classes_sns_button %>"><i class="fab fa-google pr-1" style="color: #D95040;"></i>Google</span>
                     </div>
                     <div class="flex justify-center text-sm pt-2">OR</div>
-                    <% @classes_form = "w-full rounded shadow-inner p-3 my-2 text-gray-700 text-sm" %>
-                    <% @classes_label = "absolute w-100px h-40px flex justify-end items-center -left-100px mt-10px text-xs" %>
+                    <% classes_form = "w-full rounded shadow-inner p-3 my-2 text-gray-700 text-sm" %>
+                    <% classes_label = "absolute w-100px h-40px flex justify-end items-center -left-100px mt-10px text-xs" %>
                     <%= form_with model: User.new, url: user_registration_path, class: "relative", id: "user_form" do |f| %>
-                        <%= f.label :name, "ユーザー名", class: @classes_label %>
-                        <%= f.text_field :name, placeholder: "kiitan", class: @classes_form %>
-                        <%= f.label :email, "メールアドレス", class: @classes_label %>
-                        <%= f.email_field :email, autocomplete: "email", placeholder: "kiitan@kiita.com", class: @classes_form %>
-                        <%= f.label :password, "パスワード", class: @classes_label %>
-                        <%= f.password_field :password, autocomplete: "new-password", placeholder: "********", class: @classes_form %>
+                        <%= f.label :name, "ユーザー名", class: classes_label %>
+                        <%= f.text_field :name, placeholder: "kiitan", class: classes_form %>
+                        <%= f.label :email, "メールアドレス", class: classes_label %>
+                        <%= f.email_field :email, autocomplete: "email", placeholder: "kiitan@kiita.com", class: classes_form %>
+                        <%= f.label :password, "パスワード", class: classes_label %>
+                        <%= f.password_field :password, autocomplete: "new-password", placeholder: "********", class: classes_form %>
                         <div class="font-10px mb-4">8文字以上、英・数・記号が使えます</div>
-                        <% @classes_checkbox = "text-xs flex items-center mb-2" %>
-                        <div class="<%= @classes_checkbox %>">
+                        <% classes_checkbox = "text-xs flex items-center mb-2" %>
+                        <div class="<%= classes_checkbox %>">
                             <input type="checkbox", id="accept_terms", class="mr-1">
                             <a href="" style="color: blue;">利用規約</a>に同意する
                         </div>
-                        <div class="<%= @classes_checkbox %>">
+                        <div class="<%= classes_checkbox %>">
                             <input type="checkbox", id="accept_policy", class="mr-1">
                             <a href="" style="color: blue;">プライバシーポリシー</a>に同意する
                         </div>
