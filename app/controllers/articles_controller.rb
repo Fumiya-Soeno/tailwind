@@ -8,6 +8,20 @@ class ArticlesController < ApplicationController
         @drafts = Article.where(draft: true, user: current_user.id)
     end
 
+    # キーワード検索
+    def search
+        @articles = []
+        params[:value].split(" ").uniq.each do |v|
+            searchArticles = Article.where("body LIKE ?", "%#{v}%")
+            if searchArticles.length > 0
+                searchArticles.each do |a|
+                    @articles.push(a)
+                end
+            end
+        end
+        @articles = @articles.uniq if @articles.length > 0
+    end
+
     # 新規投稿画面のform_withにインスタンスを渡しておく
     def new
         @article = Article.new()
