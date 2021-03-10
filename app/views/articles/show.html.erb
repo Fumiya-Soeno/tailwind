@@ -34,9 +34,9 @@
         <div class="font-bold font-40px mb-4"><%= @article.title %></div>
         <div class="mb-12">
             <% @article.tag_articles.ids.each do |t| %>
-                <a href="/" class="text-sm hover:underline text-gray-600 px-2 py-1 bg-gray-200 rounded mr-1" data-turbolinks="false">
-                    <%=Tag.find(TagArticle.find(t).tag_id).name%>
-                </a>
+                <%= link_to tag_search_articles_path(value: Tag.find(TagArticle.find(t).tag_id).name), class: "text-sm hover:underline text-gray-600 px-2 py-1 bg-gray-200 rounded mr-1", turbolinks: false do %>
+                    <%= Tag.find(TagArticle.find(t).tag_id).name %>
+                <% end %>
             <% end %>
         </div>
         <div class="mb-8 flex justify-center">
