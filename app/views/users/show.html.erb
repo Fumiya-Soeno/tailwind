@@ -54,8 +54,10 @@
                 <div class="border-t py-4">
                     <div class="text-xs text-gray-400 mb-2">
                         <i class="fa fa-tags"></i>
-                        <% a.tag_articles.each do |t|  %>
-                            <a href="" class="hover:underline"><%= Tag.find(t.tag_id).name %></a>
+                        <% a.tag_articles.ids.each do |t| %>
+                            <%= link_to tag_search_articles_path(value: Tag.find(TagArticle.find(t).tag_id).name), class: "hover:underline", turbolinks: false do %>
+                                <%= Tag.find(TagArticle.find(t).tag_id).name %>
+                            <% end %>
                         <% end %>
                     </div>
                     <a href="/articles/<%= a.id %>" class="font-bold text-gray-700">
