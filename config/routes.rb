@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :articles do
     collection do
       get  "search"
+      get  "tag_search"
       get  "drafts"
       post "draft"
       post "locked"

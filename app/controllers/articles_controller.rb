@@ -22,6 +22,17 @@ class ArticlesController < ApplicationController
         @articles = @articles.uniq if @articles.length > 0
     end
 
+    # タグ検索
+    def tag_search
+        @articles = []
+        params[:value].split(" ").uniq.each do |v|
+            TagArticle.where(tag_id: Tag.find_by("name LIKE ?", "%#{v}%").id).each do |t|
+                @articles.push(Article.find(t.article.id))
+            end
+        end
+        @articles = @articles.uniq if @articles.length > 0
+    end
+
     # 新規投稿画面のform_withにインスタンスを渡しておく
     def new
         @article = Article.new()
