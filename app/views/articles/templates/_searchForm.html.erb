@@ -25,7 +25,8 @@
                                 <a class="hover:underline" href="<%= user_path(a.user) %>"><%= a.user.name %></a>が<%= a.created_at.strftime('%Y年%m月%d日') %>に投稿
                             </div>
                             <div>
-                                <span class="font-extrabold cursor-default mr-1">LGTM</span>0
+                                <span class="font-extrabold cursor-default mr-1 <%= "text-qiita" if user_signed_in? && Lgtm.find_by(article_id: a.id, user_id: current_user.id) %>">LGTM</span>
+                                <span><%= Lgtm.where(article_id: a.id).count %></span>
                             </div>
                         </div>
                         <div>

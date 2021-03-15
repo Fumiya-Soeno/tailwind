@@ -1,0 +1,2 @@
+class Lgtm < ApplicationRecord
+end

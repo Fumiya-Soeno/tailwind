@@ -1,5 +1,5 @@
 class ArticlesController < ApplicationController
-    before_action :set_article, only: [:show,:edit,:update,:draft_to_article,:destroy]
+    before_action :set_article, only: [:show,:edit,:update,:draft_to_article,:destroy,:lgtm]
     before_action :authenticate_user!, except: [:index, :show]
     before_action :check_editable_user, only: [:edit, :update, :draft_to_article, :destroy]
 
@@ -103,6 +103,16 @@ class ArticlesController < ApplicationController
     def destroy
         if @article.destroy
             redirect_to root_path
+        end
+    end
+
+    # LGTM
+    def lgtm
+        if user_signed_in? && @article.user.id != current_user.id
+            lgtm = Lgtm.find_by(article_id: params[:article], user_id: current_user.id)
+            lgtm != nil ? lgtm.delete : Lgtm.create(article_id: params[:article], user_id: current_user.id)
+        else
+            return nil
         end
     end
 
