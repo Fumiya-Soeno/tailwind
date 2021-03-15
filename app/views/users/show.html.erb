@@ -65,8 +65,8 @@
                     </a>
                     <div class="text-xs flex justify-between">
                         <div>
-                            <span class="font-sans font-extrabold w-6 cursor-default text-qiita">LGTM</span>
-                            <span>0</span>
+                            <span class="font-sans font-extrabold w-6 cursor-default text-gray-500 <%= "text-qiita" if user_signed_in? && Lgtm.find_by(article_id: a.id, user_id: current_user.id) %>">LGTM</span>
+                            <span><%= Lgtm.where(article_id: a.id).count %></span>
                         </div>
                         <div class="text-gray-400"><%= a.created_at.strftime('%Y/%m/%d') %></div>
                     </div>

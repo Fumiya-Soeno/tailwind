@@ -48,11 +48,11 @@ periods = [
                 <% end %>
             </div>
             <div class="text-center flex items-center mt-1">
-                <div class="text-sm font-sans font-extrabold text-gray-500 w-6 cursor-default">
+                <div class="text-sm font-sans font-extrabold text-gray-500 w-6 cursor-default <%= "text-qiita" if user_signed_in? && Lgtm.find_by(article_id: a.id, user_id: current_user.id) %>">
                     <div class="h-3 tracking-widest">LG</div>
                     <div>TM</div>
                 </div>
-                <span class="text-sm ml-2 text-gray-700">0</span>
+                <span class="text-sm ml-2 text-gray-700"><%= Lgtm.where(article_id: a.id).count %></span>
             </div>
         </div>
     <% end %>

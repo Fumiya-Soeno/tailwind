@@ -1,5 +1,6 @@
 <%= render "layouts/header" %>
 
+<% classes_lgtm = Lgtm.find_by(article_id: @article.id, user_id: current_user.id) ? "text-white bg-qiita" : "text-qiita" %>
 <div class="py-8 px-12 relative bg-gray-100 flex justify-center">
     <div class="bg-white w-768px mr-4 p-8">
         <div class="flex items-center mb-6 justify-between">
@@ -40,9 +41,11 @@
             <% end %>
         </div>
         <div class="mb-8 flex justify-center">
-            <button class="flex justify-center items-center font-sans text-qiita w-3/4 border-2 mr-2 h-46px" style="border-color: #55c500;">
-                <span class="font-extrabold cursor-default text-qiita mr-2 font-18px">LGTM</span>
-                <span>0</span>
+            <button class="btnLGTM font-sans text-qiita w-3/4 border-2 mr-2 h-46px" style="border-color: #55c500;" articleid="<%= @article.id %>">
+                <span class="subLGTM flex justify-center items-center w-full h-full font-18px <%= classes_lgtm %>">
+                    <span class="mr-2 font-extrabold">LGTM</span>
+                    <span class="numLGTM"><%= Lgtm.where(article_id: @article.id).count %></span>
+                </span>
             </button>
             <button class="w-1/4 border-2 border-gray-500 text-gray-500"><i class="far fa-bookmark"></i></button>
         </div>
@@ -56,10 +59,10 @@
                     <span class="text-sm">ストック</span>
                 </button>
                 <div class="flex justify-center items-center">
-                    <button class="font-sans text-qiita border-2 mr-2 h-8" style="border-color: #55c500;">
-                        <span class="font-extrabold cursor-default text-qiita px-2">LGTM</span>
+                    <button class="btnLGTM font-sans text-qiita border-2 mr-2 h-8" style="border-color: #55c500;" articleid="<%= @article.id %>">
+                        <span class="subLGTM flex justify-center items-center w-full h-full font-extrabold px-2 <%= classes_lgtm %>">LGTM</span>
                     </button>
-                    <span class="text-gray-500 text-sm font-bold">0</span>
+                    <span class="numLGTM text-gray-500 text-sm font-bold"><%= Lgtm.where(article_id: @article.id).count %></span>
                 </div>
             </div>
             <div class="flex">
@@ -123,3 +126,22 @@ $(()=>{
     $('#preview').html(marked($('#preview').html()))
 })
 </script>
+
+<% if user_signed_in? && @article.user.id != current_user.id %>
+<script>
+$(()=>{
+    // LGTMボタン
+    $(document).on("click", ".btnLGTM", function(){
+
+        $.ajax({
+            type: "POST",
+            url: `/articles/${$(this).attr("articleid")}/lgtm`,
+            data: {article: $(this).attr("articleid")}
+        }).done((res)=>{
+            $(".numLGTM").text(res.count)
+            $(".subLGTM").toggleClass("text-white bg-qiita text-qiita")
+        })
+    })
+})
+</script>
+<% end %>

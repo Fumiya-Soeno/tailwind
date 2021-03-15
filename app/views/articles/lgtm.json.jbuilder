@@ -1,0 +1,1 @@
+json.count Lgtm.where(article_id: params[:article]).count

@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       post "locked"
     end
     member do
+      post "lgtm"
       patch "draft_to_article"
     end
   end
