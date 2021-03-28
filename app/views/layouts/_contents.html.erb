@@ -1,36 +1,17 @@
-<%
-periods = [
-    {title: "1日", link: ""               , params: nil},
-    {title: "週間", link: "?scope=weekly" , params: "weekly"},
-    {title: "月間", link: "?scope=monthly", params: "monthly"}
-]
-case params[:scope]
-    when "weekly" then
-        subTitile = "最近1週間の人気の記事を毎週月曜/木曜日に更新"
-    when "monthly" then
-        subTitile = "最近1ヶ月の人気の記事を毎月1日/15日に更新"
-    else
-        subTitile = "最近人気の記事を毎日5時/17時に更新"
-end
-followingUserIds = Follow.where(followed_by_id: current_user.id).pluck(:following_id)
-articles = request.path_info.index('timeline').blank? ? Article.all : Article.where(user_id: followingUserIds)
-%>
-
 <div class="bg-white w-144 mr-4">
     <div class="px-4 pt-4 border-b-2 text-gray-600">
         <i class="fas fa-chart-line fa-lg"></i>
         <span class="px-1">トレンド</span>
         <span class="text-xs text-gray-400">
-            <%= subTitile %>
+            <%= @subTitile %>
         </span>
         <div class="flex mt-4 text-sm text-gray-500">
-            <% periods.each do |p|%>
+            <% @periods.each do |p|%>
                 <a href="<%= request.path_info + p[:link]%>" class="period px-4 cursor-pointer pb-2 mx-1 <%= "period-active" if params[:scope] == p[:params] %>" data-turbolinks="false"><%=p[:title]%></a>
             <% end %>
         </div>
     </div>
-
-    <% articles.all.each do |a| %>
+    <% @articles.all.each do |a| %>
         <div class="p-4 border-b">
             <div class="text-sm mb-1 flex">
                 <a href="<%= user_path(a.user) %>" data-turbolinks="false" class="flex">
