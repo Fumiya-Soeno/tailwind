@@ -29,7 +29,13 @@
         <%= render "users/templates/score", title: "Contributions", score: 0 %>
         <%= render "users/templates/score", title: "フォロワー", score: 0 %>
     </div>
-    <a href="<%= profiles_edit_path %>" class="h-8 leading-8 w-full bg-gray-500 hover:bg-gray-400 text-white font-bold text-sm text-center">プロフィールを編集する</a>
+    <% classes_button    = "h-8 w-full text-sm flex justify-center items-center font-bold" %>
+    <% isFollow = Follow.find_by(following_id: user.id, followed_by_id: current_user.id).blank? %>
+    <% if user.id === current_user.id %>
+        <a href="<%= profiles_edit_path %>" class="<%= classes_button %> bg-gray-500 hover:bg-gray-400 text-white">プロフィールを編集する</a>
+    <% else %>
+        <a href="<%= follow_user_path(user) %>" class="<%= classes_button %> <%= isFollow ? "following" : "followed" %>" id="follow"></a>
+    <% end %>
     <% if user.profile.site != "" || user.profile.residence != "" %>
         <div class="mt-6 pt-6 text-sm text-gray-500 border-t w-full">
             <% if user.profile.site %>
@@ -45,3 +51,41 @@
         </div>
     <% end %>
 </div>
+
+<style>
+    .following{
+        color: #4B5563;
+        background-color: #FFF;
+        border: 2px solid #E5E7EB;
+    }
+    .following:hover{
+        background-color: #F3F4F6;
+    }
+    .following::before{
+        content: 'フォロー';
+    }
+    .followed{
+        color: #FFF;
+        background-color: #55C500;
+    }
+    .followed:hover{
+        background-color: #45751f;
+    }
+    .followed::before{
+        content: 'フォロー中';
+    }
+</style>
+
+<script>
+$(()=>{
+    $('#follow').on('click', function(e){
+        e.preventDefault()
+        $.ajax({
+            url: $(this).attr('href'),
+            type: 'post'
+        }).done(()=>{
+            $(this).toggleClass('following followed')
+        })
+    })
+})
+</script>
