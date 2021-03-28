@@ -1,8 +1,8 @@
 <%
 periods = [
-    {title: "1日", link: "/"              , params: nil},
-    {title: "週間", link: "/?scope=weekly" , params: "weekly"},
-    {title: "月間", link: "/?scope=monthly", params: "monthly"}
+    {title: "1日", link: ""               , params: nil},
+    {title: "週間", link: "?scope=weekly" , params: "weekly"},
+    {title: "月間", link: "?scope=monthly", params: "monthly"}
 ]
 case params[:scope]
     when "weekly" then
