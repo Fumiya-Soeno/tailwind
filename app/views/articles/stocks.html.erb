@@ -1,0 +1,15 @@
+<%= render "layouts/header" %>
+<div class="flex justify-center w-full mt-6">
+    <div class="mr-6" style="width: 728px;">
+        <% if @articles.length > 0 %>
+            <div class="border-t"></div>
+            <%= render "articles/templates/articleBody", articles: @articles %>
+        <% else %>
+            <div class="mt-6">
+                <div class="flex justify-center text-3xl"><i class="far fa-frown mb-2 text-gray-500"></i></div>
+                <div class="text-sm flex justify-center">ストックしている記事がありません</div>
+            </div>
+        <% end %>
+    </div>
+    <%= render "layouts/advertisement" %>
+</div>

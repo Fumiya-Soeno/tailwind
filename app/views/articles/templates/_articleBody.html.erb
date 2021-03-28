@@ -1,0 +1,42 @@
+<% articles.each do |a| %>
+    <div class="flex py-4 border-b">
+        <div>
+            <% if a.user.profile.icon == nil %>
+                <a href="<%= user_path(a.user) %>">
+                    <i class="fas fa-user text-gray-600 rounded-full bg-gray-200 flex justify-center items-center w-8 h-8 mr-2"></i>
+                </a>
+            <% else %>
+                <a href="<%= user_path(a.user) %>">
+                    <img src="<%= a.user.profile.icon %>" class="w-8 h-8 object-cover rounded-full inline-block mr-2">
+                </a>
+            <% end %>
+        </div>
+        <div style="width: calc(100% - 66px);">
+            <div class="flex justify-between text-xs text-gray-400" style="margin-bottom: 2px;">
+                <div>
+                    <a class="hover:underline" href="<%= user_path(a.user) %>"><%= a.user.name %></a>が<%= a.created_at.strftime('%Y年%m月%d日') %>に投稿
+                </div>
+                <div>
+                    <span class="font-extrabold cursor-default mr-1 <%= "text-qiita" if user_signed_in? && Lgtm.find_by(article_id: a.id, user_id: current_user.id) %>">LGTM</span>
+                    <span><%= Lgtm.where(article_id: a.id).count %></span>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <a class="hover:underline" href="<%= article_path(a) %>"><%= a.title %></a>
+                </div>
+                <div>
+                    <% a.tag_articles.ids.each do |t| %>
+                        <%= link_to tag_search_articles_path(value: Tag.find(TagArticle.find(t).tag_id).name), class: "text-xs text-gray-600 hover:text-gray-900 px-1 bg-gray-200 hover:bg-gray-400 rounded mr-1", turbolinks: false do %>
+                            <%= Tag.find(TagArticle.find(t).tag_id).name %>
+                        <% end %>
+                    <% end %>
+                </div>
+                <div class="text-sm text-gray-400">
+                    <%= a.body.first(80) %>
+                    <% if a.body.length >= 80 %>...<% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+<% end %>

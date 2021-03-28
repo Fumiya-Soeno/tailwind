@@ -10,11 +10,13 @@ Rails.application.routes.draw do
       get  "search"
       get  "tag_search"
       get  "drafts"
+      get  "stocks"
       post "draft"
       post "locked"
     end
     member do
       post "lgtm"
+      post "stock"
       patch "draft_to_article"
     end
   end
