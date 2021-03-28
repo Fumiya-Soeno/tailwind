@@ -9,6 +9,12 @@ class ArticlesController < ApplicationController
         @drafts = Article.where(draft: true, user: current_user.id)
     end
 
+    # ストック一覧
+    def stocks
+        stocks = Stock.where(user_id: current_user.id).pluck(:article_id)
+        @articles = Article.where(id: stocks)
+    end
+
     # キーワード検索
     def search
         @articles = []
@@ -110,8 +116,18 @@ class ArticlesController < ApplicationController
     # LGTM
     def lgtm
         if user_signed_in? && @article.user.id != current_user.id
-            lgtm = Lgtm.find_by(article_id: params[:article], user_id: current_user.id)
-            lgtm != nil ? lgtm.delete : Lgtm.create(article_id: params[:article], user_id: current_user.id)
+            lgtm = Lgtm.find_by(article_id: params[:id], user_id: current_user.id)
+            lgtm != nil ? lgtm.delete : Lgtm.create(article_id: params[:id], user_id: current_user.id)
+        else
+            return nil
+        end
+    end
+
+    # ストック
+    def stock
+        if user_signed_in?
+            stock = Stock.find_by(article_id: params[:id], user_id: current_user.id)
+            stock != nil ? stock.delete : Stock.create(article_id: params[:id], user_id: current_user.id)
         else
             return nil
         end
