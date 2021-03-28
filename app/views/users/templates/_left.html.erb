@@ -33,7 +33,7 @@
     <% if user.id === current_user.id %>
         <a href="<%= profiles_edit_path %>" class="<%= classes_profile %> bg-gray-500 hover:bg-gray-400 text-white">プロフィールを編集する</a>
     <% else %>
-        <a href="<%= profiles_edit_path %>" class="<%= classes_profile %> bg-white hover:bg-gray-100 text-gray-600 border-2" id="follow">フォロー</a>
+        <a href="<%= follow_user_path(user) %>" class="<%= classes_profile %> bg-white hover:bg-gray-100 text-gray-600 border-2" id="follow">フォロー</a>
     <% end %>
     <% if user.profile.site != "" || user.profile.residence != "" %>
         <div class="mt-6 pt-6 text-sm text-gray-500 border-t w-full">
@@ -53,10 +53,11 @@
 
 <script>
 $(()=>{
-    $("#follow").on('click', function(e){
+    $('#follow').on('click', function(e){
         e.preventDefault()
         $.ajax({
-            url: ""
+            url: $(this).attr('href'),
+            type: 'post'
         })
     })
 })

@@ -15,7 +15,6 @@ Rails.application.routes.draw do
     end
     member do
       post "lgtm"
-      post "follow"
       patch "draft_to_article"
     end
   end
@@ -29,7 +28,11 @@ Rails.application.routes.draw do
     get "questions/#{r}"
   end
 
-  resources :users, only: :show
+  resources :users, only: :show do
+    member do
+      post "follow"
+    end
+  end
   
   get   "profiles/edit"
   patch "profiles/update"
