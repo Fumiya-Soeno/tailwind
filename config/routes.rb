@@ -18,9 +18,10 @@ Rails.application.routes.draw do
       patch "draft_to_article"
     end
   end
-  articles = ["index","timeline","tags","milestone","calendarfeed"]
+
+  articles = ["timeline","tags","milestone","calendarfeed"]
   articles.each do |r|
-    get "articles/#{r}"
+    get r, to: "articles#" + r
   end
 
   questions = ["index","timeline","tags","question","news"]
@@ -33,7 +34,7 @@ Rails.application.routes.draw do
       post "follow"
     end
   end
-  
+
   get   "profiles/edit"
   patch "profiles/update"
   get   "profiles/account"
