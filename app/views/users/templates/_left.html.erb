@@ -29,7 +29,12 @@
         <%= render "users/templates/score", title: "Contributions", score: 0 %>
         <%= render "users/templates/score", title: "フォロワー", score: 0 %>
     </div>
-    <a href="<%= profiles_edit_path %>" class="h-8 leading-8 w-full bg-gray-500 hover:bg-gray-400 text-white font-bold text-sm text-center">プロフィールを編集する</a>
+    <% classes_profile = "h-8 w-full text-sm flex justify-center items-center font-bold" %>
+    <% if user.id === current_user.id %>
+        <a href="<%= profiles_edit_path %>" class="<%= classes_profile %> bg-gray-500 hover:bg-gray-400 text-white">プロフィールを編集する</a>
+    <% else %>
+        <a href="<%= profiles_edit_path %>" class="<%= classes_profile %> bg-white hover:bg-gray-100 text-gray-600 border-2" id="follow">フォロー</a>
+    <% end %>
     <% if user.profile.site != "" || user.profile.residence != "" %>
         <div class="mt-6 pt-6 text-sm text-gray-500 border-t w-full">
             <% if user.profile.site %>
@@ -45,3 +50,14 @@
         </div>
     <% end %>
 </div>
+
+<script>
+$(()=>{
+    $("#follow").on('click', function(e){
+        e.preventDefault()
+        $.ajax({
+            url: ""
+        })
+    })
+})
+</script>

@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     end
     member do
       post "lgtm"
+      post "follow"
       patch "draft_to_article"
     end
   end
