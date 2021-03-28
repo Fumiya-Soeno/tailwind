@@ -1,26 +1,8 @@
 class ArticlesController < ApplicationController
     before_action :set_article, only: [:show,:edit,:update,:draft_to_article,:destroy,:lgtm]
+    before_action :set_template_params, only:[:index, :timeline, :tags, :milestone, :calendarfeed]
     before_action :authenticate_user!, except: [:index, :show]
     before_action :check_editable_user, only: [:edit, :update, :draft_to_article, :destroy]
-
-    # トップ画面
-    def index
-        @periods = [
-            {title: "1日", link: ""               , params: nil},
-            {title: "週間", link: "?scope=weekly" , params: "weekly"},
-            {title: "月間", link: "?scope=monthly", params: "monthly"}
-        ]
-        case params[:scope]
-        when "weekly" then
-            @subTitile = "最近1週間の人気の記事を毎週月曜/木曜日に更新"
-        when "monthly" then
-            @subTitile = "最近1ヶ月の人気の記事を毎月1日/15日に更新"
-        else
-            @subTitile = "最近人気の記事を毎日5時/17時に更新"
-        end
-        @followingUserIds = Follow.where(followed_by_id: current_user.id).pluck(:following_id)
-        @articles = request.path_info.index('timeline').blank? ? Article.all : Article.where(user_id: followingUserIds)
-    end
 
     # 下書き一覧
     def drafts
@@ -140,6 +122,25 @@ class ArticlesController < ApplicationController
     # @articleの設定用
     def set_article
         @article = Article.find(params[:id])
+    end
+
+    # テンプレートで表示する変数
+    def set_template_params
+        @periods = [
+            {title: "1日", link: ""               , params: nil},
+            {title: "週間", link: "?scope=weekly" , params: "weekly"},
+            {title: "月間", link: "?scope=monthly", params: "monthly"}
+        ]
+        case params[:scope]
+        when "weekly" then
+            @subTitile = "最近1週間の人気の記事を毎週月曜/木曜日に更新"
+        when "monthly" then
+            @subTitile = "最近1ヶ月の人気の記事を毎月1日/15日に更新"
+        else
+            @subTitile = "最近人気の記事を毎日5時/17時に更新"
+        end
+        @followingUserIds = Follow.where(followed_by_id: current_user.id).pluck(:following_id)
+        @articles = request.path_info.index('timeline').blank? ? Article.all : Article.where(user_id: @followingUserIds)
     end
 
     # create用ストロングパラメータ
