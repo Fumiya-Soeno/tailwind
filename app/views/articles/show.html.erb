@@ -8,13 +8,13 @@
         <div class="bg-white w-768px mr-4 p-8 mb-4">
             <div class="flex items-center mb-6 justify-between">
                 <div class="flex">
-                    <a href="<%= user_path(@article.user) %>" data-turbolinks="false" class="flex">
+                    <a href="<%= user_path(@article.user) %>" class="flex">
                         <% if @article.user.profile.icon == nil %>
                             <i class="fas fa-user text-gray-600 rounded-full bg-gray-200 flex justify-center items-center w-8 h-8 mr-2"></i>
                         <% else %>
                             <img src="<%= @article.user.profile.icon %>" class="w-8 h-8 object-cover rounded-full inline-block mr-2">
                         <% end %>
-                        <div class="mr-4 hover:underline font-18px" data-turbolinks="false">@<%= @article.user.name %></div>
+                        <div class="mr-4 hover:underline font-18px">@<%= @article.user.name %></div>
                     </a>
                     <span class="text-gray-500 text-sm flex items-center"><%= @article.created_at.strftime('%Y年%m月%d日') %>に投稿</span>
                 </div>
@@ -103,8 +103,8 @@
             </div>
         </div>
         <div class="bg-white w-768px mr-4 pb-4">
-            <div class="border-b text-xl font-bold pt-6 px-8 pb-2">コメント</div>
-            <div class="border-b p-8"></div>
+            <div class="border-b text-xl font-bold py-6 px-8">コメント</div>
+            <div id="comments"></div>
             <% if user_signed_in? %>
                 <div class="pt-8 px-8 flex items-center">
                     <% if current_user.profile.icon == nil %>
@@ -117,8 +117,8 @@
                 <div class="border my-2 mx-8">
                     <div class="text-sm flex justify-between mx-2">
                         <div class="flex">
-                            <div class="btnCommentEdit px-6 py-2 my-2 cursor-pointer bg-gray-100">編集</div>
-                            <div class="btnCommentPreview px-6 py-2 my-2 cursor-pointer">プレビュー</div>
+                            <div class="btn_comment_edit px-6 py-2 my-2 cursor-pointer bg-gray-100">編集</div>
+                            <div class="btn_comment_preview px-6 py-2 my-2 cursor-pointer">プレビュー</div>
                         </div>
                         <div class="flex items-center text-gray-500 font-16px">
                             <i class="fa fa-question-circle pr-4 cursor-pointer"></i>
@@ -126,8 +126,8 @@
                         </div>
                     </div>
                     <div class="mx-2">
-                        <textarea id="commentInput" placeholder="テキストを入力" class="border resize-none text-sm p-2 w-full h-100px"></textarea>
-                        <div id="commentPreview" class="border resize-none text-sm p-2 hidden" style="min-height: 100px; margin-bottom: 6px;"></div>
+                        <textarea id="comment_input" placeholder="テキストを入力" class="border resize-none text-sm p-2 w-full h-100px"></textarea>
+                        <div id="comment_preview" class="border resize-none text-sm p-2 hidden" style="min-height: 100px; margin-bottom: 6px;"></div>
                     </div>
                     <div class="flex px-2 items-center justify-between">
                         <input type="file" id="commentImageUpload" class="hidden">
@@ -135,7 +135,7 @@
                             <i class="fa fa-image mr-2"></i>
                             <label for="commentImageUpload" class="cursor-pointer">画像を選択</label>
                         </div>
-                        <button class="bg-qiita text-white font-bold mb-1 py-3 px-6">投稿</button>
+                        <button id="post_comment" user_id="<%= current_user.id %>" class="bg-qiita text-white font-bold mb-1 py-3 px-6">投稿</button>
                     </div>
                 </div>
             <% end %>
@@ -155,34 +155,6 @@
     max-width: calc(100% - 5rem);
 }
 </style>
-
-<script>
-$(()=>{
-    marked.setOptions({
-        breaks: true,
-        langPrefix: '',
-        highlight: function (code, lang) {
-        return hljs.highlightAuto(code, [lang]).value
-        }
-    })
-    $('#preview').html(marked($('#preview').html()))
-    $('#commentInput').on('keyup', function(){
-        $('#commentPreview').html(marked($(this).val()))
-    })
-    $(document).on('click', '.btnCommentPreview', function(){
-        $('#commentInput').hide()
-        $('#commentPreview').show()
-        $('.btnCommentPreview').addClass('bg-gray-100')
-        $('.btnCommentEdit').removeClass('bg-gray-100')
-    })
-    $(document).on('click', '.btnCommentEdit', function(){
-        $('#commentInput').show()
-        $('#commentPreview').hide()
-        $('.btnCommentEdit').addClass('bg-gray-100')
-        $('.btnCommentPreview').removeClass('bg-gray-100')
-    })
-})
-</script>
 
 <% if user_signed_in? && @article.user.id != current_user.id %>
 <script>
@@ -206,7 +178,6 @@ $(()=>{
 <script>
     // ストックボタン
     $(document).on("click", ".btnStock", function(){
-        console.log('done')
         $.ajax({
             type: "POST",
             url: `/articles/${articleid}/stock`
@@ -214,5 +185,70 @@ $(()=>{
             $('.btnStock').toggleClass("text-gray-500 bg-gray-500 text-white")
         })
     })
+    marked.setOptions({
+        breaks: true,
+        langPrefix: '',
+        highlight: function (code, lang) {
+        return hljs.highlightAuto(code, [lang]).value
+        }
+    })
+    $('#preview').html(marked($('#preview').html()))
+    $('#comment_input').on('keyup', function(){
+        $('#comment_preview').html(marked($(this).val()))
+    })
+    $(document).on('click', '.btn_comment_preview', function(){
+        $('#comment_input').hide()
+        $('#comment_preview').show()
+        $('.btn_comment_preview').addClass('bg-gray-100')
+        $('.btn_comment_edit').removeClass('bg-gray-100')
+    })
+    $(document).on('click', '.btn_comment_edit', function(){
+        $('#comment_input').show()
+        $('#comment_preview').hide()
+        $('.btn_comment_edit').addClass('bg-gray-100')
+        $('.btn_comment_preview').removeClass('bg-gray-100')
+    })
+    // コメント投稿ボタン
+    $(document).on('click', '#post_comment', function(){
+        firebase.database().ref('articles').child($('#articleid').attr('articleid')).push({
+            comment: $('#comment_input').val(),
+            user_id: $(this).attr('user_id'),
+            created_at: moment().format("YYYY-MM-DD HH:mm")
+        },()=>{
+            $('#comment_input').val('')
+            $('#comment_preview').html('')
+        })
+    })
+    firebase.database().ref('articles').child($('#articleid').attr('articleid')).on('child_added', snapshot=>{
+        $.ajax({
+            url: '/profiles/get_icon',
+            data: {user_id: snapshot.val().user_id}
+        }).done(res=>{
+            const html = buildHTML(res, marked(snapshot.val().comment), snapshot.val().created_at)
+            $('#comments').append(html)
+        })
+    })
+    const buildHTML = (res, comment, createdAt) => {
+        const iconDOM = res.icon === null ? `<span class="fas fa-user text-gray-600 rounded-full bg-gray-200 flex justify-center items-center w-8 h-8 mr-2"></span>` : `<img src="${res.icon}" class="w-8 h-8 object-cover rounded-full inline-block mr-2">`
+        const html = 
+        `
+        <div class="border-b px-8 py-6">
+            <div class="flex justify-between">
+                <div class="flex items-center">
+                    <a href="/users/${res.user_id}">${iconDOM}</a>
+                    <a href="/users/${res.user_id}" class="text-sm text-gray-700 hover:underline">@${res.user_name}</a>
+                </div>
+                <div class="flex items-center text-sm text-gray-500">
+                    <span class="mr-2">${createdAt}</span>
+                    <span class="fa fa-ellipsis-h"></span>
+                </div>
+            </div>
+            <div class="mt-2 text-sm text-gray-800">
+                ${comment}
+            </div>
+        </div>
+        `
+        return html
+    }
 </script>
 <% end %>

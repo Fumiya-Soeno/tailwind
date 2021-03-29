@@ -20,7 +20,7 @@ class ProfilesController < ApplicationController
             redirect_to profiles_account_path
         end
     end
-
+    
     def set_icon
         current_user.profile.update(icon: params[:icon])
     end
