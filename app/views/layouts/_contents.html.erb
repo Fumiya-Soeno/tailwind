@@ -7,24 +7,24 @@
         </span>
         <div class="flex mt-4 text-sm text-gray-500">
             <% @periods.each do |p|%>
-                <a href="<%= request.path_info + p[:link]%>" class="period px-4 cursor-pointer pb-2 mx-1 <%= "period-active" if params[:scope] == p[:params] %>" data-turbolinks="false"><%=p[:title]%></a>
+                <a href="<%= request.path_info + p[:link]%>" class="period px-4 cursor-pointer pb-2 mx-1 <%= "period-active" if params[:scope] == p[:params] %>"><%=p[:title]%></a>
             <% end %>
         </div>
     </div>
     <% @articles.all.each do |a| %>
         <div class="p-4 border-b">
             <div class="text-sm mb-1 flex">
-                <a href="<%= user_path(a.user) %>" data-turbolinks="false" class="flex">
+                <a href="<%= user_path(a.user) %>" class="flex">
                     <% if a.user.profile.icon == nil %>
                         <i class="fas fa-user text-xs text-gray-600 rounded-full bg-gray-200 flex justify-center items-center w-5 h-5"></i>
                     <% else %>
                         <img src="<%= a.user.profile.icon %>" class="w-5 h-5 object-cover rounded-full inline-block">
                     <% end %>
-                    <div class="mx-1 hover:underline" data-turbolinks="false">@<%= a.user.name %></div>
+                    <div class="mx-1 hover:underline">@<%= a.user.name %></div>
                 </a>
                 <span class="text-gray-500">が<%= a.created_at.strftime('%Y年%m月%d日') %>に投稿</span>
             </div>
-            <a href="<%= article_path(a.id) %>" class="hover:underline font-bold text-lg" data-turbolinks="false"><%=a[:title]%></a>
+            <a href="<%= article_path(a.id) %>" class="hover:underline font-bold text-lg"><%=a[:title]%></a>
             <div class="text-gray-600">
                 <i class="fas fa-tags text-xs"></i>
                 <% a.tag_articles.ids.each.with_index do |t, i| %>
