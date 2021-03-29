@@ -4,101 +4,141 @@
 <% classes_stock = Stock.find_by(article_id: @article.id, user_id: current_user.id) ? "bg-gray-500 text-white" : "text-gray-500" %>
 <div id="articleid" class="hidden" articleid="<%= @article.id %>"></div>
 <div class="py-8 px-12 relative bg-gray-100 flex justify-center">
-    <div class="bg-white w-768px mr-4 p-8">
-        <div class="flex items-center mb-6 justify-between">
+    <div>
+        <div class="bg-white w-768px mr-4 p-8 mb-4">
+            <div class="flex items-center mb-6 justify-between">
+                <div class="flex">
+                    <a href="<%= user_path(@article.user) %>" data-turbolinks="false" class="flex">
+                        <% if @article.user.profile.icon == nil %>
+                            <i class="fas fa-user text-gray-600 rounded-full bg-gray-200 flex justify-center items-center w-8 h-8 mr-2"></i>
+                        <% else %>
+                            <img src="<%= @article.user.profile.icon %>" class="w-8 h-8 object-cover rounded-full inline-block mr-2">
+                        <% end %>
+                        <div class="mr-4 hover:underline font-18px" data-turbolinks="false">@<%= @article.user.name %></div>
+                    </a>
+                    <span class="text-gray-500 text-sm flex items-center"><%= @article.created_at.strftime('%Y年%m月%d日') %>に投稿</span>
+                </div>
+                <% if @article.user == current_user %>
+                    <div class="flex text-xs text-gray-500">
+                        <div>
+                            <a href="<%= edit_article_path(@article) %>" class="flex items-center">
+                                <i class="fa fa-pencil-alt pr-1"></i>
+                                <span class="hover:underline">編集する</span>
+                            </a>
+                        </div>
+                        <div class="ml-4">
+                            <a href="<%= article_path(@article) %>" data-method="DELETE" class="flex items-center">
+                                <i class="fa fa-trash pr-1"></i>
+                                <span class="hover:underline">削除する</span>
+                            </a>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+            <div class="font-bold font-40px mb-4"><%= @article.title %></div>
+            <div class="mb-12">
+                <% @article.tag_articles.ids.each do |t| %>
+                    <%= link_to tag_search_articles_path(value: Tag.find(TagArticle.find(t).tag_id).name), class: "text-sm hover:underline text-gray-600 px-2 py-1 bg-gray-200 rounded mr-1", turbolinks: false do %>
+                        <%= Tag.find(TagArticle.find(t).tag_id).name %>
+                    <% end %>
+                <% end %>
+            </div>
+            <div class="mb-8 flex justify-center">
+                <button class="btnLGTM font-sans text-qiita w-3/4 border-2 mr-2 h-46px" style="border-color: #55c500;">
+                    <span class="subLGTM flex justify-center items-center w-full h-full font-18px <%= classes_lgtm %>">
+                        <span class="mr-2 font-extrabold">LGTM</span>
+                        <span class="numLGTM"><%= Lgtm.where(article_id: @article.id).count %></span>
+                    </span>
+                </button>
+                <button class="btnStock w-1/4 border-2 border-gray-500 <%= classes_stock %>"><i class="far fa-bookmark"></i></button>
+            </div>
+            <div id="preview" class="pb-6">
+                <%= @article.body %>
+            </div>
+            <div class="flex justify-between pb-8 mb-8 border-b border-gray-400">
+                <div class="flex">
+                    <button class="btnStock font-bold border-2 border-gray-500 px-2 mr-2 <%= classes_stock %>">
+                        <i class="far fa-bookmark pr-1"></i>
+                        <span class="text-sm">ストック</span>
+                    </button>
+                    <div class="flex justify-center items-center">
+                        <button class="btnLGTM font-sans text-qiita border-2 mr-2 h-8" style="border-color: #55c500;">
+                            <span class="subLGTM flex justify-center items-center w-full h-full font-extrabold px-2 <%= classes_lgtm %>">LGTM</span>
+                        </button>
+                        <span class="numLGTM text-gray-500 text-sm font-bold"><%= Lgtm.where(article_id: @article.id).count %></span>
+                    </div>
+                </div>
+                <div class="flex">
+                    <% classes_sns_icon = "flex items-center justify-center bg-gray-400 text-white rounded-full w-8 h-8 cursor-pointer ml-2" %>
+                    <div class="<%= classes_sns_icon + " h-bg-twitter"%>">
+                        <i class="fab fa-twitter"></i>
+                    </div>
+                    <div class="<%= classes_sns_icon + " h-bg-facebook"%>">
+                        <i class="fab fa-facebook-f"></i>
+                    </div>
+                </div>
+            </div>
             <div class="flex">
-                <a href="<%= user_path(@article.user) %>" data-turbolinks="false" class="flex">
-                    <% if @article.user.profile.icon == nil %>
+                <a href="<%= user_path(@article.user.id) %>">
+                    <% if @article.user.profile.icon_type == 0 %>
+                        <div class="flex justify-center items-center fa fa-user text-gray-600 bg-gray-200 w-16 h-16 rounded-full font-36px"></div>
+                    <% else %>
+                        <img src="<%= @article.user.profile.icon %>" class="inline-block rounded-full w-16 h-16 object-cover">
+                    <% end %>
+                </a>
+                <div class="ml-4 w-full-5rem">
+                    <div class="flex items-center h-4">
+                        <% if @article.user.profile.firstname != nil && @article.user.profile.lastname != nil %>
+                            <a href="<%= user_path(@article.user.id) %>" class="font-bold hover:underline"><%= @article.user.profile.firstname + " " + @article.user.profile.lastname %></a>
+                        <% end %>
+                        <a href="<%= user_path(@article.user.id) %>" class="text-sm text-gray-400 font-bold ml-2 hover:underline">@<%= @article.user.name %></a>
+                    </div>
+                    <% if @article.user.profile.profile != "" %>
+                        <div class="text-sm text-gray-500 break-all mt-2"><%= @article.user.profile.profile %></div>
+                    <% end %>
+                    <% if @article.user.profile.site %>
+                        <a class="text-sm text-gray-500 hover:underline" href="<%= @article.user.profile.site %>"><%= @article.user.profile.site %></a>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white w-768px mr-4 pb-4">
+            <div class="border-b text-xl font-bold pt-6 px-8 pb-2">コメント</div>
+            <div class="border-b p-8"></div>
+            <% if user_signed_in? %>
+                <div class="pt-8 px-8 flex items-center">
+                    <% if current_user.profile.icon == nil %>
                         <i class="fas fa-user text-gray-600 rounded-full bg-gray-200 flex justify-center items-center w-8 h-8 mr-2"></i>
                     <% else %>
-                        <img src="<%= @article.user.profile.icon %>" class="w-8 h-8 object-cover rounded-full inline-block mr-2">
+                        <img src="<%= current_user.profile.icon %>" class="w-8 h-8 object-cover rounded-full inline-block mr-2">
                     <% end %>
-                    <div class="mr-4 hover:underline font-18px" data-turbolinks="false">@<%= @article.user.name %></div>
-                </a>
-                <span class="text-gray-500 text-sm flex items-center"><%= @article.created_at.strftime('%Y年%m月%d日') %>に投稿</span>
-            </div>
-            <% if @article.user == current_user %>
-                <div class="flex text-xs text-gray-500">
-                    <div>
-                        <a href="<%= edit_article_path(@article) %>" class="flex items-center">
-                            <i class="fa fa-pencil-alt pr-1"></i>
-                            <span class="hover:underline">編集する</span>
-                        </a>
+                    <span class="font-bold">投稿する</span>
+                </div>
+                <div class="border my-2 mx-8">
+                    <div class="text-sm flex justify-between mx-2">
+                        <div class="flex">
+                            <div class="btnCommentEdit px-6 py-2 my-2 cursor-pointer bg-gray-100">編集</div>
+                            <div class="btnCommentPreview px-6 py-2 my-2 cursor-pointer">プレビュー</div>
+                        </div>
+                        <div class="flex items-center text-gray-500 font-16px">
+                            <i class="fa fa-question-circle pr-4 cursor-pointer"></i>
+                            <i class="far fa-smile pr-4 cursor-pointer"></i>
+                        </div>
                     </div>
-                    <div class="ml-4">
-                        <a href="<%= article_path(@article) %>" data-method="DELETE" class="flex items-center">
-                            <i class="fa fa-trash pr-1"></i>
-                            <span class="hover:underline">削除する</span>
-                        </a>
+                    <div class="mx-2">
+                        <textarea id="commentInput" placeholder="テキストを入力" class="border resize-none text-sm p-2 w-full h-100px"></textarea>
+                        <div id="commentPreview" class="border resize-none text-sm p-2 hidden" style="min-height: 100px; margin-bottom: 6px;"></div>
+                    </div>
+                    <div class="flex px-2 items-center justify-between">
+                        <input type="file" id="commentImageUpload" class="hidden">
+                        <div class="text-sm rounded border py-1 px-2 text-gray-600 cursor-pointer hover:bg-gray-100">
+                            <i class="fa fa-image mr-2"></i>
+                            <label for="commentImageUpload" class="cursor-pointer">画像を選択</label>
+                        </div>
+                        <button class="bg-qiita text-white font-bold mb-1 py-3 px-6">投稿</button>
                     </div>
                 </div>
             <% end %>
-        </div>
-        <div class="font-bold font-40px mb-4"><%= @article.title %></div>
-        <div class="mb-12">
-            <% @article.tag_articles.ids.each do |t| %>
-                <%= link_to tag_search_articles_path(value: Tag.find(TagArticle.find(t).tag_id).name), class: "text-sm hover:underline text-gray-600 px-2 py-1 bg-gray-200 rounded mr-1", turbolinks: false do %>
-                    <%= Tag.find(TagArticle.find(t).tag_id).name %>
-                <% end %>
-            <% end %>
-        </div>
-        <div class="mb-8 flex justify-center">
-            <button class="btnLGTM font-sans text-qiita w-3/4 border-2 mr-2 h-46px" style="border-color: #55c500;">
-                <span class="subLGTM flex justify-center items-center w-full h-full font-18px <%= classes_lgtm %>">
-                    <span class="mr-2 font-extrabold">LGTM</span>
-                    <span class="numLGTM"><%= Lgtm.where(article_id: @article.id).count %></span>
-                </span>
-            </button>
-            <button class="btnStock w-1/4 border-2 border-gray-500 <%= classes_stock %>"><i class="far fa-bookmark"></i></button>
-        </div>
-        <div id="preview" class="pb-6">
-            <%= @article.body %>
-        </div>
-        <div class="flex justify-between pb-8 mb-8 border-b border-gray-400">
-            <div class="flex">
-                <button class="btnStock font-bold border-2 border-gray-500 px-2 mr-2 <%= classes_stock %>">
-                    <i class="far fa-bookmark pr-1"></i>
-                    <span class="text-sm">ストック</span>
-                </button>
-                <div class="flex justify-center items-center">
-                    <button class="btnLGTM font-sans text-qiita border-2 mr-2 h-8" style="border-color: #55c500;">
-                        <span class="subLGTM flex justify-center items-center w-full h-full font-extrabold px-2 <%= classes_lgtm %>">LGTM</span>
-                    </button>
-                    <span class="numLGTM text-gray-500 text-sm font-bold"><%= Lgtm.where(article_id: @article.id).count %></span>
-                </div>
-            </div>
-            <div class="flex">
-                <% classes_sns_icon = "flex items-center justify-center bg-gray-400 text-white rounded-full w-8 h-8 cursor-pointer ml-2" %>
-                <div class="<%= classes_sns_icon + " h-bg-twitter"%>">
-                    <i class="fab fa-twitter"></i>
-                </div>
-                <div class="<%= classes_sns_icon + " h-bg-facebook"%>">
-                    <i class="fab fa-facebook-f"></i>
-                </div>
-            </div>
-        </div>
-        <div class="flex">
-            <a href="<%= user_path(@article.user.id) %>">
-                <% if @article.user.profile.icon_type == 0 %>
-                    <div class="flex justify-center items-center fa fa-user text-gray-600 bg-gray-200 w-16 h-16 rounded-full font-36px"></div>
-                <% else %>
-                    <img src="<%= @article.user.profile.icon %>" class="inline-block rounded-full w-16 h-16 object-cover">
-                <% end %>
-            </a>
-            <div class="ml-4 w-full-5rem">
-                <div class="flex items-center h-4">
-                    <% if @article.user.profile.firstname != nil && @article.user.profile.lastname != nil %>
-                        <a href="<%= user_path(@article.user.id) %>" class="font-bold hover:underline"><%= @article.user.profile.firstname + " " + @article.user.profile.lastname %></a>
-                    <% end %>
-                    <a href="<%= user_path(@article.user.id) %>" class="text-sm text-gray-400 font-bold ml-2 hover:underline">@<%= @article.user.name %></a>
-                </div>
-                <% if @article.user.profile.profile != "" %>
-                    <div class="text-sm text-gray-500 break-all mt-2"><%= @article.user.profile.profile %></div>
-                <% end %>
-                <% if @article.user.profile.site %>
-                    <a class="text-sm text-gray-500 hover:underline" href="<%= @article.user.profile.site %>"><%= @article.user.profile.site %></a>
-                <% end %>
-            </div>
         </div>
     </div>
     <%= render "layouts/advertisement" %>
@@ -126,6 +166,21 @@ $(()=>{
         }
     })
     $('#preview').html(marked($('#preview').html()))
+    $('#commentInput').on('keyup', function(){
+        $('#commentPreview').html(marked($(this).val()))
+    })
+    $(document).on('click', '.btnCommentPreview', function(){
+        $('#commentInput').hide()
+        $('#commentPreview').show()
+        $('.btnCommentPreview').addClass('bg-gray-100')
+        $('.btnCommentEdit').removeClass('bg-gray-100')
+    })
+    $(document).on('click', '.btnCommentEdit', function(){
+        $('#commentInput').show()
+        $('#commentPreview').hide()
+        $('.btnCommentEdit').addClass('bg-gray-100')
+        $('.btnCommentPreview').removeClass('bg-gray-100')
+    })
 })
 </script>
 
@@ -143,6 +198,12 @@ $(()=>{
             $(".subLGTM").toggleClass("text-white bg-qiita text-qiita")
         })
     })
+})
+</script>
+<% end %>
+
+<% if user_signed_in? %>
+<script>
     // ストックボタン
     $(document).on("click", ".btnStock", function(){
         console.log('done')
@@ -153,6 +214,5 @@ $(()=>{
             $('.btnStock').toggleClass("text-gray-500 bg-gray-500 text-white")
         })
     })
-})
 </script>
 <% end %>
