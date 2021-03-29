@@ -22,7 +22,7 @@ classes_content = "block text-gray-400 hover:bg-gray-200 cursor-pointer h-8 roun
         <% contents_article.each do |c|%>
             <% isActive = controller_name == "articles" && action_name == c[:action] || controller_name == "articles" && action_name ==  "index" && c[:action] == "" %>
             <a href="/<%= c[:action] %>" class="<%= classes_content %> <%= "active" if isActive %>">
-                <i class="fas <%= c[:class]%> inline-block w-6" data-turbolinks="false"></i>
+                <i class="fas <%= c[:class]%> inline-block w-6"></i>
                 <%=c[:title]%>
             </a>
         <% end %>
@@ -33,7 +33,7 @@ classes_content = "block text-gray-400 hover:bg-gray-200 cursor-pointer h-8 roun
         <% contents_question.each do |c|%>
             <% isActive = controller_name == "questions" && action_name == c[:action] %>
             <a href="/questions/<%= c[:action] %>" class="<%= classes_content %> <%= "active" if isActive %>">
-                <i class="fas <%=c[:class]%> inline-block w-6" data-turbolinks="false"></i>
+                <i class="fas <%=c[:class]%> inline-block w-6"></i>
                 <%=c[:title]%>
             </a>
         <% end %>

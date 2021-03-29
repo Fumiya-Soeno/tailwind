@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   patch "profiles/update"
   get   "profiles/account"
   patch "profiles/update_account"
+  get   "profiles/get_icon"
   post  "profiles/set_icon"
   post  "profiles/unset_icon"
 end

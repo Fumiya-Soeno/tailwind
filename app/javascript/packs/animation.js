@@ -195,7 +195,7 @@ $(()=>{
     AWS.config.apiVersions = {
         rekognition: '2016-06-27',
     }
-    const UploadToS3 = function(file) {
+    const UploadToS3 = function(file, dom) {
         const s3 = new AWS.S3({
             params: {
                 Bucket: bucket,
@@ -210,10 +210,10 @@ $(()=>{
                 ACL: "public-read"
             }, function(err, data) {
                 if (data !== null) {
-                    let body = $('#article_body').val()
+                    let body = dom.val()
                     if (body == undefined){ return }
-                    $('#article_body').val(body + '![](' + `https://${bucket}.s3-${region}.amazonaws.com/${file.name}` +')\n')
-                    $('#article_body').trigger('keyup')
+                    dom.val(body + '![](' + `https://${bucket}.s3-${region}.amazonaws.com/${file.name}` +')\n')
+                    dom.trigger('keyup')
                 } else {
                     console.log(err)
                 }
@@ -227,11 +227,14 @@ $(()=>{
         $('#iconImageUpload').trigger('click')
     })
     $('#bodyImageUpload').on('change', function(){
-        UploadToS3($(this).prop('files')[0])
+        UploadToS3($(this).prop('files')[0], $('#article_body'))
     })
     $('#article_body').on('drop',function(e){
         e.preventDefault()
         $('#bodyImageUpload').prop('files', e.originalEvent.dataTransfer.files)
-        UploadToS3($('#bodyImageUpload').prop('files')[0])
+        UploadToS3($('#bodyImageUpload').prop('files')[0], $('#article_body'))
+    })
+    $('#commentImageUpload').on('change', function(){
+        UploadToS3($(this).prop('files')[0], $('#comment_input'))
     })
 })
