@@ -180,7 +180,7 @@ $(()=>{
     $(document).on("click", ".btnStock", function(){
         $.ajax({
             type: "POST",
-            url: `/articles/${articleid}/stock`
+            url: `/articles/${$('#articleid').attr('articleid')}/stock`
         }).done(()=>{
             $('.btnStock').toggleClass("text-gray-500 bg-gray-500 text-white")
         })
