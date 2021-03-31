@@ -70,9 +70,10 @@
                 </div>
                 <div class="flex">
                     <% classes_sns_icon = "flex items-center justify-center bg-gray-400 text-white rounded-full w-8 h-8 cursor-pointer ml-2" %>
-                    <div class="<%= classes_sns_icon + " h-bg-twitter"%>">
+                    <% via = User.find(@article.user.id).profile.twitter.blank? ? "" : User.find(@article.user.id).profile.twitter.gsub!("https://twitter.com/", "") %>
+                    <a href="https://twitter.com/share?url=<%= request.url %>&text=<%= @article.title %>&hashtags=Kiita&via=<%= via %>" class="<%= classes_sns_icon + " h-bg-twitter"%>">
                         <i class="fab fa-twitter"></i>
-                    </div>
+                    </a>
                     <div class="<%= classes_sns_icon + " h-bg-facebook"%>">
                         <i class="fab fa-facebook-f"></i>
                     </div>
