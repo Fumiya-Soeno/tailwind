@@ -133,6 +133,18 @@ class ArticlesController < ApplicationController
         end
     end
 
+    def comment
+        if user_signed_in?
+            @firebase.push("articles/#{params[:id]}", {
+                comment: params[:comment],
+                user_id: current_user.id,
+                created_at: params[:created_at]
+            })
+        else
+            return nil
+        end
+    end
+
     private
 
     # @articleの設定用
