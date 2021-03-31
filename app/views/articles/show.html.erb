@@ -135,7 +135,7 @@
                             <i class="fa fa-image mr-2"></i>
                             <label for="commentImageUpload" class="cursor-pointer">画像を選択</label>
                         </div>
-                        <button id="post_comment" user_id="<%= current_user.id %>" class="bg-qiita text-white font-bold mb-1 py-3 px-6">投稿</button>
+                        <button id="post_comment" class="bg-qiita text-white font-bold mb-1 py-3 px-6">投稿</button>
                     </div>
                 </div>
             <% end %>
@@ -210,11 +210,14 @@ $(()=>{
     })
     // コメント投稿ボタン
     $(document).on('click', '#post_comment', function(){
-        firebase.database().ref('articles').child($('#articleid').attr('articleid')).push({
-            comment: $('#comment_input').val(),
-            user_id: $(this).attr('user_id'),
-            created_at: moment().format("YYYY-MM-DD HH:mm")
-        },()=>{
+        $.ajax({
+            url: `/articles/${$('#articleid').attr('articleid')}/comment`,
+            type: 'POST',
+            data: {
+                comment: $('#comment_input').val(),
+                created_at: moment().format("YYYY-MM-DD HH:mm")
+            }
+        }).done(()=>{
             $('#comment_input').val('')
             $('#comment_preview').html('')
         })

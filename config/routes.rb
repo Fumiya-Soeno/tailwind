@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     member do
       post "lgtm"
       post "stock"
+      post "comment"
       patch "draft_to_article"
     end
   end
